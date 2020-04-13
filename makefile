@@ -24,8 +24,8 @@ test-container:
 
 build-container:
 	rm -rf build
-	docker build -t southclaws/projectname-build .
-	docker run -v $(shell pwd)/test/plugins:/root/test/plugins southclaws/projectname-build
+	docker build -t southclaws/mruvapi-build .
+	docker run -v $(shell pwd)/test/plugins:/root/test/plugins southclaws/mruvapi-build
 
 # this make target is only run inside the container
 build-inside:
