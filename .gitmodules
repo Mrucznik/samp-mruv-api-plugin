@@ -1,6 +1,9 @@
 [submodule "lib/samp-plugin-sdk"]
 	path = lib/samp-plugin-sdk
-	url = https://github.com/maddinat0r/samp-plugin-sdk
+	url = git@github.com:maddinat0r/samp-plugin-sdk
 [submodule "lib/cmake-modules"]
 	path = lib/cmake-modules
-	url = https://github.com/Zeex/cmake-modules
+	url = git@github.com:Zeex/cmake-modules
+[submodule "lib/mruv-pb-cpp"]
+	path = lib/mruv-pb-cpp
+	url = git@github.com:MruV-RP/mruv-pb-cpp
