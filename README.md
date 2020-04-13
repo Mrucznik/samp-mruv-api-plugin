@@ -1,15 +1,8 @@
-# Yet Another SA:MP Plugin Boilerplate
+# MruV API SAMP plugin
 
 ## Introduction
-
-This is a SA:MP plugin boilerplate/starter kit project for developing plugins in C++. The project includes a quick and
-simple way to test plugins on multiple platforms as well as a CMake setup and a full CI/CD configuration for building on
-[Travis CI](https://travis-ci.org/Southclaws/samp-plugin-boilerplate/) and
-[Appveyor](https://ci.appveyor.com/project/Southclaws/samp-plugin-boilerplate) as well as deploying binaries to
-[Bintray](https://bintray.com/southclaws/samp-plugin-boilerplate).
-
-It's in no way an exhaustive "tutorial" per se but it should be a good place to get started. I noticed the tutorial by
-Kyosaur (which is a fantastic tutorial still) was showing a bit of age - that being said, you should still read it!
+ 
+todo
 
 ## Prerequisites
 
