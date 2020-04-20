@@ -1,32 +1,25 @@
-# -
-# Setup test requirements
-# -
+# makefile
+.PHONY: help
 
-test-setup:
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+test-setup: ## Ensure test server & package dependencies
 	cd test && sampctl server ensure
 	sampctl package ensure
 
-# -
-# Run Tests
-# -
-
-test-native:
+test-native: ## Run test package in local environment
 	sampctl package build
 	cd test && sampctl server run
 
-test-container:
+test-container: ## Run test package in container
 	sampctl package build
 	cd test && sampctl server run --container
 
-# -
-# Build inside container
-# -
-
-build-container:
+build-container: ## Build plugin in container
 	rm -rf build
-	docker build -t southclaws/mruvapi-build .
-	docker run -v $(shell pwd)/test/plugins:/root/test/plugins southclaws/mruvapi-build
+	docker build -t mrucznik/mruvapi-build .
+	docker run -v $(shell pwd)/test/plugins:/root/test/plugins mrucznik/mruvapi-build
 
-# this make target is only run inside the container
-build-inside:
+build-inside: ## This make target is only run inside the container
 	cd build && cmake .. && make
