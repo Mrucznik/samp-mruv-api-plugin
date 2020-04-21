@@ -5,7 +5,11 @@ set(SAMP_SDK_ROOT "${PROJECT_SOURCE_DIR}/lib/samp-plugin-sdk")
 find_package(SAMPSDK REQUIRED)
 
 include_directories(
-	${SAMPSDK_INCLUDE_DIR}
+        ${SAMPSDK_INCLUDE_DIR}
+)
+
+include_directories(
+        ${PROJECT_SOURCE_DIR}/lib/mruv-pb-cpp
 )
 
 add_samp_plugin(mruvapi
@@ -20,3 +24,5 @@ add_samp_plugin(mruvapi
 	natives.hpp
 	plugin.def
 )
+
+target_link_libraries(mruvapi grpc++)
