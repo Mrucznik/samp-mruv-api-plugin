@@ -2,15 +2,6 @@ cmake_minimum_required(VERSION 3.0)
 
 project(mruvapi)
 
-include(FetchContent)
-FetchContent_Declare(
-		gRPC
-		GIT_REPOSITORY https://github.com/grpc/grpc
-		GIT_TAG        v1.28.0
-)
-set(FETCHCONTENT_QUIET OFF)
-FetchContent_MakeAvailable(gRPC)
-
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/lib/cmake-modules")
 
 if(UNIX)
@@ -23,6 +14,16 @@ if(WIN32 AND MVC)
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/test/plugins")
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/test/plugins")
 endif()
+
+# gRPC
+include(FetchContent)
+FetchContent_Declare(
+		gRPC
+		GIT_REPOSITORY https://github.com/grpc/grpc
+		GIT_TAG        v1.28.0
+)
+set(FETCHCONTENT_QUIET OFF)
+FetchContent_MakeAvailable(gRPC)
 
 # removes the sprintf warnings from plugin-natives
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)

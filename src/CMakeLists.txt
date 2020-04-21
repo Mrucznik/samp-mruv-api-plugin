@@ -13,16 +13,18 @@ include_directories(
 )
 
 add_samp_plugin(mruvapi
-	${SAMPSDK_DIR}/amxplugin.cpp
-	${SAMPSDK_DIR}/amxplugin2.cpp
-	${SAMPSDK_DIR}/amx/getch.c
-	common.hpp
-	main.cpp
-	impl.cpp
-	impl.hpp
-	natives.cpp
-	natives.hpp
-	plugin.def
+        ${SAMPSDK_DIR}/amxplugin.cpp
+        ${SAMPSDK_DIR}/amxplugin2.cpp
+        ${SAMPSDK_DIR}/amx/getch.c
+        common.hpp
+        main.cpp
+        impl.cpp
+        impl.hpp
+        natives.cpp
+        natives.hpp
+        plugin.def
+        MruVAPIClient.h
+        MruVAPIClient.cpp
 )
 
 target_link_libraries(mruvapi grpc++)
