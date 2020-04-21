@@ -9,14 +9,12 @@ The code here acts as the translation between AMX data types and native types.
 
 #include <grpcpp/create_channel.h>
 #include "natives.hpp"
-#include "accounts/accounts.grpc.pb.h"
 #include "MruVAPIClient.h"
 
 cell Natives::MyFunction(AMX *amx, cell *params) {
     MruVAPIClient greeter(grpc::CreateChannel(
-            "localhost:50051", grpc::InsecureChannelCredentials()));
-    std::string user("world");
-    std::string reply = greeter.SayHello(user);
+            "localhost:3001", grpc::InsecureChannelCredentials()));
+    std::string reply = greeter.GetVersion();
     std::cout << "Greeter received: " << reply << std::endl;
 
     logprintf("Hello world! %s", reply.c_str());

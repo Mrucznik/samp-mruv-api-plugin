@@ -11,11 +11,8 @@
 
 #include <grpcpp/grpcpp.h>
 #include "items/items.grpc.pb.h"
-#include "items/items_model.grpc.pb.h"
-#include "common/health.grpc.pb.h"
 
 using grpc::Channel;
-using grpc::ClientContext;
 using grpc::Status;
 
 using mruv::MruVItemService;
@@ -26,7 +23,7 @@ public:
 
     // Assembles the client's payload, sends it and presents the response back
     // from the server.
-    std::string SayHello(const std::string& user);
+    std::string GetVersion();
 
 private:
     std::unique_ptr<MruVItemService::Stub> stub_;

@@ -23,6 +23,20 @@ add_samp_plugin(mruvapi
         natives.cpp
         natives.hpp
         plugin.def
+        #mruv-pb-cpp
+        ../lib/mruv-pb-cpp/items/items.grpc.pb.cc
+        ../lib/mruv-pb-cpp/items/items.pb.cc
+        ../lib/mruv-pb-cpp/items/items_model.grpc.pb.cc
+        ../lib/mruv-pb-cpp/items/items_model.pb.cc
+        ../lib/mruv-pb-cpp/google/api/annotations.grpc.pb.cc
+        ../lib/mruv-pb-cpp/google/api/annotations.pb.cc
+        ../lib/mruv-pb-cpp/google/api/http.grpc.pb.cc
+        ../lib/mruv-pb-cpp/google/api/http.pb.cc
+        ../lib/mruv-pb-cpp/common/health.grpc.pb.cc
+        ../lib/mruv-pb-cpp/common/health.pb.cc
+        ../lib/mruv-pb-cpp/common/spatial.grpc.pb.cc
+        ../lib/mruv-pb-cpp/common/spatial.pb.cc
+        #my
         MruVAPIClient.h
         MruVAPIClient.cpp
 )

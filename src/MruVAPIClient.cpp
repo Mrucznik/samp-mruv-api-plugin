@@ -15,7 +15,7 @@ using mruv::VersionResponse;
 MruVAPIClient::MruVAPIClient(std::shared_ptr<Channel> channel)
         : stub_(MruVItemService::NewStub(channel)) {}
 
-std::string MruVAPIClient::SayHello(const std::string &user) {
+std::string MruVAPIClient::GetVersion() {
     // Data we are sending to the server.
     VersionRequest request;
 
