@@ -15,6 +15,7 @@ if(WIN32 AND MVC)
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/test/plugins")
 endif()
 
+add_definitions(-DOPENSSL_NO_ASM) # must have for compilation with -m32 flag
 # gRPC
 include(FetchContent)
 FetchContent_Declare(
