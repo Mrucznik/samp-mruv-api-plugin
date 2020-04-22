@@ -36,9 +36,6 @@ add_samp_plugin(mruvapi
         ../lib/mruv-pb-cpp/common/health.pb.cc
         ../lib/mruv-pb-cpp/common/spatial.grpc.pb.cc
         ../lib/mruv-pb-cpp/common/spatial.pb.cc
-        #my
-        MruVAPIClient.h
-        MruVAPIClient.cpp
 )
 
 target_link_libraries(mruvapi grpc++)

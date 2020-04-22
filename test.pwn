@@ -9,7 +9,7 @@ main() {
     //
 }
 
-Test:mruv_connect_test() {
+Test:mruv_connect_failure_test() {
     new ret = mruv_connect("");
     printf("ret: %d", ret);
     ASSERT(ret == 0);
