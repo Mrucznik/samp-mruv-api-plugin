@@ -7,60 +7,22 @@ no instances of `cell` or `AMX*` and is purely C++ and external library code.
 The code here acts as the translation between AMX data types and native types.
 */
 
-#include <grpcpp/create_channel.h>
-#include <items/items.grpc.pb.h>
 #include "natives.hpp"
+#include "impl.hpp"
 
-using namespace mruv;
-using grpc::Channel;
-using grpc::Status;
-using grpc::StatusCode;
+using namespace Impl;
 using grpc::ClientContext;
-
-std::shared_ptr<Channel> channel;
-std::unique_ptr<MruVItemService::Stub> items;
-
-cell Natives::mruv_connect(AMX *amx, cell *params) {
-    channel = grpc::CreateChannel("localhost:3001", grpc::InsecureChannelCredentials());
-
-    channel->WaitForConnected(gpr_time_add(
-        gpr_now(GPR_CLOCK_REALTIME),gpr_time_from_seconds(5, GPR_TIMESPAN))
-    );
-    if(channel->GetState(false) != grpc_connectivity_state::GRPC_CHANNEL_READY) {
-        logprintf("Couldn't connect to mruv-api");
-        return 0;
-    }
-
-    items = MruVItemService::NewStub(channel);
-
-    logprintf("Connected to mruv-api.");
-    return 1;
-}
-
-cell Natives::mruv_close(AMX *amx, cell *params) {
-    logprintf("Closed connection to mruv-api.");
-    return 1;
-}
 
 cell Natives::mruv_itemTypes_create(AMX *amx, cell *params) {
     ItemType request;
     ItemTypeID response;
-
-    // Context for the client. It could be used to convey extra information to
-    // the server and/or tweak certain RPC behaviors.
     ClientContext context;
 
     // The actual RPC.
-    Status status = items->CreateItemType(new ClientContext, request, &response);;
+    Status status = API::Get().ItemsStub()->CreateItemType(&context, request, &response);
+    API::Get().setLastStatus(status);
 
-    // Act upon its status.
-    if (status.ok()) {
-        return response.id();
-    } else {
-        //error
-        return 0;
-    }
-    return response.id();
+    return status.ok();
 }
 
 cell Natives::mruv_itemTypes_get(AMX *amx, cell *params) {
@@ -121,4 +83,26 @@ cell Natives::mruv_containers_delete(AMX *amx, cell *params) {
 
 cell Natives::mruv_containers_getAll(AMX *amx, cell *params) {
     return 0;
+}
+
+cell Natives::mruv_error(AMX *amx, cell *params) {
+    return API::Get().getLastStatus().error_code();
+}
+
+cell Natives::mruv_itemsService_version(AMX *amx, cell *params) {
+    VersionRequest req;
+    VersionResponse res;
+    ClientContext ctx;
+
+    Status status = API::Get().ItemsStub()->GetServiceVersion(&ctx, req, &res);
+    return status.ok();
+}
+
+cell Natives::mruv_itemsService_status(AMX *amx, cell *params) {
+    ServiceStatusRequest req;
+    ServiceStatusResponse res;
+    ClientContext ctx;
+
+    Status status = API::Get().ItemsStub()->GetServiceStatus(&ctx, req, &res);
+    return status.ok();
 }

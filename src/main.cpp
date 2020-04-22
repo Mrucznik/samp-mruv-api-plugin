@@ -11,8 +11,11 @@ The "main" source file with most of the boilerplate code. Includes the
 #include <amx/amx.h>
 #include <plugincommon.h>
 
+#include "impl.hpp"
 #include "common.hpp"
 #include "natives.hpp"
+
+using Impl::API;
 
 logprintf_t logprintf;
 
@@ -26,15 +29,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void** ppData)
     pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
     logprintf = (logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
 
-
-
+    API::Get().Connect(5);
     return true;
 }
 
 extern "C" const AMX_NATIVE_INFO native_list[] = {
-    AMX_DEFINE_NATIVE(mruv_connect)
-    AMX_DEFINE_NATIVE(mruv_close)
-
     AMX_DEFINE_NATIVE(mruv_itemTypes_create)
     AMX_DEFINE_NATIVE(mruv_itemTypes_get)
     AMX_DEFINE_NATIVE(mruv_itemTypes_delete)
