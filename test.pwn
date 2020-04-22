@@ -9,8 +9,8 @@ main() {
     //
 }
 
-Test:RunTest() {
-    new ret = MyFunction();
+Test:mruv_connect_test() {
+    new ret = mruv_connect("");
     printf("ret: %d", ret);
     ASSERT(ret == 0);
 }

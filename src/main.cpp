@@ -29,7 +29,28 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void** ppData)
 }
 
 extern "C" const AMX_NATIVE_INFO native_list[] = {
-    { "MyFunction", Natives::MyFunction },
+    AMX_DEFINE_NATIVE(mruv_connect)
+    AMX_DEFINE_NATIVE(mruv_close)
+
+    AMX_DEFINE_NATIVE(mruv_itemTypes_create)
+    AMX_DEFINE_NATIVE(mruv_itemTypes_get)
+    AMX_DEFINE_NATIVE(mruv_itemTypes_delete)
+    AMX_DEFINE_NATIVE(mruv_itemTypes_getAll)
+
+    AMX_DEFINE_NATIVE(mruv_items_create)
+    AMX_DEFINE_NATIVE(mruv_items_get)
+    AMX_DEFINE_NATIVE(mruv_items_delete)
+    AMX_DEFINE_NATIVE(mruv_items_getAll)
+
+    AMX_DEFINE_NATIVE(mruv_containerTypes_create)
+    AMX_DEFINE_NATIVE(mruv_containerTypes_get)
+    AMX_DEFINE_NATIVE(mruv_containerTypes_delete)
+    AMX_DEFINE_NATIVE(mruv_containerTypes_getAll)
+
+    AMX_DEFINE_NATIVE(mruv_containers_create)
+    AMX_DEFINE_NATIVE(mruv_containers_get)
+    AMX_DEFINE_NATIVE(mruv_containers_delete)
+    AMX_DEFINE_NATIVE(mruv_containers_getAll)
     { NULL, NULL }
 };
 

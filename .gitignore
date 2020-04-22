@@ -48,4 +48,4 @@ build/
 .vs/
 *.so
 *.o
-/cmake-build-debug/
+cmake-build-debug/
