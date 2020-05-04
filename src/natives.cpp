@@ -13,14 +13,53 @@ The code here acts as the translation between AMX data types and native types.
 using namespace Impl;
 using grpc::ClientContext;
 
+// native mruv_itemsService_version();
+cell Natives::mruv_itemsService_version(AMX *amx, cell *params) {
+    VersionRequest req;
+    VersionResponse res;
+    ClientContext ctx;
+
+    Status status = API::Get().ItemsStub()->GetServiceVersion(&ctx, req, &res);
+    return status.ok();
+}
+
+// native mruv_itemsService_status();
+cell Natives::mruv_itemsService_status(AMX *amx, cell *params) {
+    ServiceStatusRequest req;
+    ServiceStatusResponse res;
+    ClientContext ctx;
+
+    Status status = API::Get().ItemsStub()->GetServiceStatus(&ctx, req, &res);
+    logprintf("Service status: %s", res.status().c_str());
+    return status.ok();
+}
+
+// native mruv_itemTypes_create(&id, const name[32], const description[256], const Float:weight, const Float:volume, const model);
 cell Natives::mruv_itemTypes_create(AMX *amx, cell *params) {
+    //ScopedDebugInfo dbg_info(amx, "mruv_itemTypes_create", params, "dssffd");
+
     ItemType request;
     ItemTypeID response;
     ClientContext context;
 
-    // The actual RPC.
+    // convert params to
+    request.set_name(amx_GetCppString(amx, params[2]));
+    request.set_description(amx_GetCppString(amx, params[3]));
+    request.set_base_weight(params[4]);
+    request.set_base_volume(params[5]);
+    request.set_model_hash(params[6]);
+
+    // RPC call.
     Status status = API::Get().ItemsStub()->CreateItemType(&context, request, &response);
     API::Get().setLastStatus(status);
+
+    // convert response to amx structure
+    if(status.ok())
+    {
+        cell* addr = NULL;
+        amx_GetAddr(amx, params[1], &addr);
+        *addr = response.id();
+    }
 
     return status.ok();
 }
@@ -87,22 +126,4 @@ cell Natives::mruv_containers_getAll(AMX *amx, cell *params) {
 
 cell Natives::mruv_error(AMX *amx, cell *params) {
     return API::Get().getLastStatus().error_code();
-}
-
-cell Natives::mruv_itemsService_version(AMX *amx, cell *params) {
-    VersionRequest req;
-    VersionResponse res;
-    ClientContext ctx;
-
-    Status status = API::Get().ItemsStub()->GetServiceVersion(&ctx, req, &res);
-    return status.ok();
-}
-
-cell Natives::mruv_itemsService_status(AMX *amx, cell *params) {
-    ServiceStatusRequest req;
-    ServiceStatusResponse res;
-    ClientContext ctx;
-
-    Status status = API::Get().ItemsStub()->GetServiceStatus(&ctx, req, &res);
-    return status.ok();
 }

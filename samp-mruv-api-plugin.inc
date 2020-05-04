@@ -9,8 +9,9 @@
 #endif
 #define _SAMP_MRUV_API_PLUGIN_included
 
+// Enums
 
-// don't forget to change the above include guard to match the file name!
+// MruV gRPC API plugin
 native mruv_connect(const connectionString[]="");
 native mruv_close();
 
@@ -18,8 +19,8 @@ native mruv_close();
 native mruv_itemsService_status();
 native mruv_itemsService_version();
 
-native mruv_itemTypes_create();
-native mruv_itemTypes_get();
+native mruv_itemTypes_create(&id, const name[32], const description[256], const Float:weight, const Float:volume, const model);
+native mruv_itemTypes_get(const id);
 native mruv_itemTypes_delete();
 native mruv_itemTypes_getAll();
 

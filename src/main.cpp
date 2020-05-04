@@ -29,11 +29,22 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void** ppData)
     pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
     logprintf = (logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
 
+    logprintf("==========================================");
+    logprintf("|                                        |");
+    logprintf("|            MruV API plugin             |");
+    logprintf("|                 v0.0.1                 |");
+    logprintf("|                                        |");
+    logprintf("| * Connecting to MruV-API...            |");
     API::Get().Connect(5);
+    logprintf("| * MruV-API plugin was loaded.          |");
+    logprintf("==========================================");
     return true;
 }
 
 extern "C" const AMX_NATIVE_INFO native_list[] = {
+    AMX_DEFINE_NATIVE(mruv_itemsService_status)
+    AMX_DEFINE_NATIVE(mruv_itemsService_version)
+
     AMX_DEFINE_NATIVE(mruv_itemTypes_create)
     AMX_DEFINE_NATIVE(mruv_itemTypes_get)
     AMX_DEFINE_NATIVE(mruv_itemTypes_delete)
@@ -63,6 +74,13 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX* amx)
 
 PLUGIN_EXPORT int PLUGIN_CALL Unload()
 {
+    logprintf("==========================================");
+    logprintf("|                                        |");
+    logprintf("|            MruV API plugin             |");
+    logprintf("|                 v0.0.1                 |");
+    logprintf("|                                        |");
+    logprintf("| * MruV-API plugin was unloaded.        |");
+    logprintf("==========================================");
     return 1;
 }
 

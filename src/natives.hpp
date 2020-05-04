@@ -15,6 +15,10 @@ Contains all the `PAWN_NATIVE_DECL` for native function declarations.
 	{#native, Natives::native},
 
 namespace Natives {
+    //version
+    cell mruv_itemsService_version(AMX *amx, cell *params);
+    cell mruv_itemsService_status(AMX *amx, cell *params);
+
     cell mruv_itemTypes_create(AMX *amx, cell *params);
     cell mruv_itemTypes_get(AMX *amx, cell *params);
     cell mruv_itemTypes_delete(AMX *amx, cell *params);
@@ -34,10 +38,6 @@ namespace Natives {
     cell mruv_containers_get(AMX *amx, cell *params);
     cell mruv_containers_delete(AMX *amx, cell *params);
     cell mruv_containers_getAll(AMX *amx, cell *params);
-
-    //version
-    cell mruv_itemsService_version(AMX *amx, cell *params);
-    cell mruv_itemsService_status(AMX *amx, cell *params);
 
     // utils
     cell mruv_error(AMX *amx, cell *params);

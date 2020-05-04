@@ -7,10 +7,11 @@
 
 main() {
     //
+    printf("Done :)");
 }
 
-//Test:mruv_connect_failure_test() {
-//    new ret = mruv_connect("");
-//    printf("ret: %d", ret);
-//    ASSERT(ret == 0);
-//}
+Test:mruv_itemsService_status_test() {
+    new ret = mruv_itemsService_status();
+    printf("ret: %d", ret);
+    ASSERT(ret == 1);
+}
