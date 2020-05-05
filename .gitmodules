@@ -7,3 +7,6 @@
 [submodule "lib/mruv-pb-cpp"]
 	path = lib/mruv-pb-cpp
 	url = git@github.com:MruV-RP/mruv-pb-cpp
+[submodule "lib/mruv-protos"]
+	path = lib/mruv-protos
+	url = git@github.com:MruV-RP/mruv-protos
