@@ -20,6 +20,7 @@ namespace Natives {
     cell mruv_itemsService_status(AMX *amx, cell *params);
 
     cell mruv_itemTypes_create(AMX *amx, cell *params);
+    cell mruv_itemTypes_create_async(AMX *amx, cell *params);
     cell mruv_itemTypes_get(AMX *amx, cell *params);
     cell mruv_itemTypes_delete(AMX *amx, cell *params);
     cell mruv_itemTypes_getAll(AMX *amx, cell *params);

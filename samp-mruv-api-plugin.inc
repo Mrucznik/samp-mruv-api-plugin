@@ -11,15 +11,12 @@
 
 // Enums
 
-// MruV gRPC API plugin
-native mruv_connect(const connectionString[]="");
-native mruv_close();
-
 // Items service
 native mruv_itemsService_status();
 native mruv_itemsService_version();
 
-native mruv_itemTypes_create(&id, const name[32], const description[256], const Float:weight, const Float:volume, const model);
+native mruv_itemTypes_create(&id, const name[], const description[], const Float:weight, const Float:volume, const model);
+native mruv_itemTypes_create_async(const callback[], const name[], const description[], const Float:weight, const Float:volume, const model);
 native mruv_itemTypes_get(const id);
 native mruv_itemTypes_delete();
 native mruv_itemTypes_getAll();
