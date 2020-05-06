@@ -27,7 +27,7 @@ namespace Impl {
 
         bool Connect(int);
 
-        const std::unique_ptr<MruVItemService::Stub> &ItemsStub() const;
+        const std::unique_ptr<MruVItemService::Stub> &MruVItemServiceStub() const;
 
         const Status &getLastStatus() const;
         void setLastStatus(const Status &lastStatus);

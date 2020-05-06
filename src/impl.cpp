@@ -17,7 +17,7 @@ Impl::API::API() {
     _channel = grpc::CreateChannel("localhost:3001", grpc::InsecureChannelCredentials());
 }
 
-const std::unique_ptr<MruVItemService::Stub> &Impl::API::ItemsStub() const {
+const std::unique_ptr<MruVItemService::Stub> &Impl::API::MruVItemServiceStub() const {
     return _items;
 }
 

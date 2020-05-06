@@ -15,33 +15,50 @@ Contains all the `PAWN_NATIVE_DECL` for native function declarations.
 	{#native, Natives::native},
 
 namespace Natives {
-    //version
-    cell mruv_itemsService_version(AMX *amx, cell *params);
-    cell mruv_itemsService_status(AMX *amx, cell *params);
 
-    cell mruv_itemTypes_create(AMX *amx, cell *params);
-    cell mruv_itemTypes_create_async(AMX *amx, cell *params);
-    cell mruv_itemTypes_get(AMX *amx, cell *params);
-    cell mruv_itemTypes_delete(AMX *amx, cell *params);
-    cell mruv_itemTypes_getAll(AMX *amx, cell *params);
+    cell mvis_CreateItem(AMX *amx, cell *params);
 
-    cell mruv_items_create(AMX *amx, cell *params);
-    cell mruv_items_get(AMX *amx, cell *params);
-    cell mruv_items_delete(AMX *amx, cell *params);
-    cell mruv_items_getAll(AMX *amx, cell *params);
+    cell mvis_GetItem(AMX *amx, cell *params);
 
-    cell mruv_containerTypes_create(AMX *amx, cell *params);
-    cell mruv_containerTypes_get(AMX *amx, cell *params);
-    cell mruv_containerTypes_delete(AMX *amx, cell *params);
-    cell mruv_containerTypes_getAll(AMX *amx, cell *params);
+    cell mvis_DeleteItem(AMX *amx, cell *params);
 
-    cell mruv_containers_create(AMX *amx, cell *params);
-    cell mruv_containers_get(AMX *amx, cell *params);
-    cell mruv_containers_delete(AMX *amx, cell *params);
-    cell mruv_containers_getAll(AMX *amx, cell *params);
+    cell mvis_GetItems(AMX *amx, cell *params);
 
-    // utils
-    cell mruv_error(AMX *amx, cell *params);
+    cell mvis_CreateItemType(AMX *amx, cell *params);
+
+    cell mvis_GetItemType(AMX *amx, cell *params);
+
+    cell mvis_DeleteItemType(AMX *amx, cell *params);
+
+    cell mvis_GetItemTypes(AMX *amx, cell *params);
+
+    cell mvis_CreateContainer(AMX *amx, cell *params);
+
+    cell mvis_GetContainer(AMX *amx, cell *params);
+
+    cell mvis_DeleteContainer(AMX *amx, cell *params);
+
+    cell mvis_GetContainers(AMX *amx, cell *params);
+
+    cell mvis_CreateContainerType(AMX *amx, cell *params);
+
+    cell mvis_GetContainerType(AMX *amx, cell *params);
+
+    cell mvis_DeleteContainerType(AMX *amx, cell *params);
+
+    cell mvis_GetContainerTypes(AMX *amx, cell *params);
+
+    cell mvis_GetContainerItems(AMX *amx, cell *params);
+
+    cell mvis_PullItem(AMX *amx, cell *params);
+
+    cell mvis_PutItem(AMX *amx, cell *params);
+
+    cell mvis_SortItems(AMX *amx, cell *params);
+
+    cell mvis_GetNearestItems(AMX *amx, cell *params);
+
+    cell mvis_UseItem(AMX *amx, cell *params);
 }
 
 #endif
