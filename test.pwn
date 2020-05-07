@@ -7,7 +7,6 @@
 
 main() {
     //
-    printf("Done :)");
 }
 
 Test:mruv_itemsService_status_test() {

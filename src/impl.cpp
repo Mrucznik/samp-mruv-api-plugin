@@ -51,8 +51,12 @@ bool Impl::API::Connect(int timeout) {
         return false;
     }
 
-    _items = MruVItemService::NewStub(_channel);
     _accounts = MruVAccountsService::NewStub(_channel);
+    _characters = MruVCharactersService::NewStub(_channel);
+    _devtools = MruVDevToolsService::NewStub(_channel);
+    _groups = MruVGroupsService::NewStub(_channel);
+    _items = MruVItemService::NewStub(_channel);
+    _server = MruVServerService::NewStub(_channel);
 
     logprintf("Connected to mruv-api.");
     return true;
