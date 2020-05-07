@@ -17,9 +17,30 @@ Impl::API::API() {
     _channel = grpc::CreateChannel("localhost:3001", grpc::InsecureChannelCredentials());
 }
 
+const std::unique_ptr<MruVAccountsService::Stub> &Impl::API::MruVAccountsServiceStub() const {
+    return _accounts;
+}
+
+const std::unique_ptr<MruVCharactersService::Stub> &Impl::API::MruVCharactersServiceStub() const {
+    return _characters;
+}
+
+const std::unique_ptr<MruVDevToolsService::Stub> &Impl::API::MruVDevToolsServiceStub() const {
+    return _devtools;
+}
+
+const std::unique_ptr<MruVGroupsService::Stub> &Impl::API::MruVGroupsServiceStub() const {
+    return _groups;
+}
+
 const std::unique_ptr<MruVItemService::Stub> &Impl::API::MruVItemServiceStub() const {
     return _items;
 }
+
+const std::unique_ptr<MruVServerService::Stub> &Impl::API::MruVServerServiceStub() const {
+    return _server;
+}
+
 
 bool Impl::API::Connect(int timeout) {
     _channel->WaitForConnected(gpr_time_add(
@@ -31,6 +52,7 @@ bool Impl::API::Connect(int timeout) {
     }
 
     _items = MruVItemService::NewStub(_channel);
+    _accounts = MruVAccountsService::NewStub(_channel);
 
     logprintf("Connected to mruv-api.");
     return true;

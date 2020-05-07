@@ -10,3 +10,9 @@
 [submodule "lib/mruv-protos"]
 	path = lib/mruv-protos
 	url = git@github.com:MruV-RP/mruv-protos
+[submodule "lib/googleapis"]
+	path = lib/googleapis
+	url = git@github.com:googleapis/googleapis.git
+[submodule "lib/protobuf"]
+	path = lib/protobuf
+	url = git@github.com:protocolbuffers/protobuf.git
