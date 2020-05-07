@@ -49,3 +49,6 @@ build/
 *.so
 *.o
 cmake-build-debug/
+
+# idea
+.idea/
