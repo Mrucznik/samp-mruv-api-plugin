@@ -11,7 +11,8 @@ main() {
 }
 
 Test:mruv_itemsService_status_test() {
-    new ret = mruv_itemsService_status();
-    printf("ret: %d", ret);
+    new status[256];
+    new ret = mvcs_GetServiceStatus(status);
+    printf("ret: %s [%d]", status, ret);
     ASSERT(ret == 1);
 }

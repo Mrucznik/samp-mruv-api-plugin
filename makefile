@@ -7,8 +7,9 @@ help:
 gen: ## Generate pawn natives code
 	mkdir gen
 	protoc -Ilib/googleapis -Ilib/protobuf/src --plugin=/home/mrucznik/go/bin/protoc-gen-pawn --pawn_out=plugins=natives:./gen --proto_path=./lib/mruv-protos/protos ./lib/mruv-protos/protos/**/*.proto
+	rm -rf gen/github.com/MruV-RP/mruv-pb-go/devtools # don't generate code from devtools
 	cat src/natives.cpp.header gen/github.com/MruV-RP/mruv-pb-go/*/*_natives.cpp > src/natives.cpp
-	cat gen/github.com/MruV-RP/mruv-pb-go/*/*.inc > samp-mruv-api-plugin.inc
+	cat gen/github.com/MruV-RP/mruv-pb-go/*/*_enums.inc gen/github.com/MruV-RP/mruv-pb-go/*/*_natives.inc > samp-mruv-api-plugin.inc
 	cat gen/github.com/MruV-RP/mruv-pb-go/*/*_native_definitions.cpp > src/native_definitions.cpp
 	rm -rf gen
 

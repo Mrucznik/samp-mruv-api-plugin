@@ -76,8 +76,6 @@ namespace Natives {
 
     cell mvcs_PermanentCharacterKill(AMX *amx, cell *params);
 
-    cell mvcs_DeathsStream(AMX *amx, cell *params);
-
     cell mvcs_GetServiceStatus(AMX *amx, cell *params);
 
     cell mvcs_GetServiceVersion(AMX *amx, cell *params);

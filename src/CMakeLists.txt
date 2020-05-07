@@ -24,18 +24,39 @@ add_samp_plugin(mruvapi
         natives.hpp
         plugin.def
         #mruv-pb-cpp
-        ../lib/mruv-pb-cpp/items/items.grpc.pb.cc
-        ../lib/mruv-pb-cpp/items/items.pb.cc
-        ../lib/mruv-pb-cpp/items/items_model.grpc.pb.cc
-        ../lib/mruv-pb-cpp/items/items_model.pb.cc
-        ../lib/mruv-pb-cpp/google/api/annotations.grpc.pb.cc
-        ../lib/mruv-pb-cpp/google/api/annotations.pb.cc
-        ../lib/mruv-pb-cpp/google/api/http.grpc.pb.cc
-        ../lib/mruv-pb-cpp/google/api/http.pb.cc
+        ../lib/mruv-pb-cpp/accounts/accounts.grpc.pb.cc
+        ../lib/mruv-pb-cpp/accounts/accounts.pb.cc
+        ../lib/mruv-pb-cpp/accounts/accounts_model.grpc.pb.cc
+        ../lib/mruv-pb-cpp/accounts/accounts_model.pb.cc
+        ../lib/mruv-pb-cpp/characters/characters.grpc.pb.cc
+        ../lib/mruv-pb-cpp/characters/characters.pb.cc
+        ../lib/mruv-pb-cpp/characters/characters_model.grpc.pb.cc
+        ../lib/mruv-pb-cpp/characters/characters_model.pb.cc
         ../lib/mruv-pb-cpp/common/health.grpc.pb.cc
         ../lib/mruv-pb-cpp/common/health.pb.cc
         ../lib/mruv-pb-cpp/common/spatial.grpc.pb.cc
         ../lib/mruv-pb-cpp/common/spatial.pb.cc
+        ../lib/mruv-pb-cpp/devtools/devtools.grpc.pb.cc
+        ../lib/mruv-pb-cpp/devtools/devtools.pb.cc
+        ../lib/mruv-pb-cpp/devtools/devtools_model.grpc.pb.cc
+        ../lib/mruv-pb-cpp/devtools/devtools_model.pb.cc
+        ../lib/mruv-pb-cpp/groups/groups.grpc.pb.cc
+        ../lib/mruv-pb-cpp/groups/groups.pb.cc
+        ../lib/mruv-pb-cpp/groups/groups_model.grpc.pb.cc
+        ../lib/mruv-pb-cpp/groups/groups_model.pb.cc
+        ../lib/mruv-pb-cpp/items/items.grpc.pb.cc
+        ../lib/mruv-pb-cpp/items/items.pb.cc
+        ../lib/mruv-pb-cpp/items/items_model.grpc.pb.cc
+        ../lib/mruv-pb-cpp/items/items_model.pb.cc
+        ../lib/mruv-pb-cpp/server/server.grpc.pb.cc
+        ../lib/mruv-pb-cpp/server/server.pb.cc
+        ../lib/mruv-pb-cpp/server/server_model.grpc.pb.cc
+        ../lib/mruv-pb-cpp/server/server_model.pb.cc
+
+        ../lib/mruv-pb-cpp/google/api/annotations.grpc.pb.cc
+        ../lib/mruv-pb-cpp/google/api/annotations.pb.cc
+        ../lib/mruv-pb-cpp/google/api/http.grpc.pb.cc
+        ../lib/mruv-pb-cpp/google/api/http.pb.cc
 )
 
 target_link_libraries(mruvapi grpc++)

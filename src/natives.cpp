@@ -144,7 +144,7 @@ cell Natives::mvcs_CreateCharacter(AMX *amx, cell *params) {
     return status.ok();
 }
 
-// native mvcs_GetCharacter(const i_Id, &o_Id, &o_OwnerId, o_FirstName[], o_SecondName[], &o_Age, &o_Sex, &o_Position[Position]);
+// native mvcs_GetCharacter(const i_Id, &o_Id, &o_OwnerId, o_FirstName[], o_SecondName[], &o_Age, &o_Sex, o_Position[Position]);
 cell Natives::mvcs_GetCharacter(AMX *amx, cell *params) {
     CharacterID request;
     Character response;
@@ -253,237 +253,6 @@ cell Natives::mvcs_GetServiceVersion(AMX *amx, cell *params) {
     
     // RPC call.
     Status status = API::Get().MruVCharactersServiceStub()->GetServiceVersion(&context, request, &response);
-    API::Get().setLastStatus(status);
-    
-	// convert response to amx structure
-	if(status.ok())
-	{
-		cell* addr = NULL;
-		amx_SetCppString(amx, params[1], response.version(), 256);
-		amx_SetCppString(amx, params[2], response.build_date(), 256);
-		amx_SetCppString(amx, params[3], response.commit(), 256);
-		amx_SetCppString(amx, params[4], response.os_arch(), 256);
-
-	}
-    return status.ok();
-}
-
-// native mvdts_GetPositions(const i_Limit, const i_Category[], const i_Author[Player], o_Positions[][GetPositionsResponse_Row]);
-cell Natives::mvdts_GetPositions(AMX *amx, cell *params) {
-    GetPositionsRequest request;
-    GetPositionsResponse response;
-    ClientContext context;
-    
-	// construct request from params
-	request.set_limit(params[1]);
-	request.set_category(amx_GetCppString(amx, params[2]));
-	// TODO: message
-
-    // RPC call.
-    Status status = API::Get().MruVDevToolsServiceStub()->GetPositions(&context, request, &response);
-    API::Get().setLastStatus(status);
-    
-	// convert response to amx structure
-	if(status.ok())
-	{
-		cell* addr = NULL;
-		// todo: list
-
-	}
-    return status.ok();
-}
-
-// native mvdts_SavePosition(const i_Position[Position], &o_Success);
-cell Natives::mvdts_SavePosition(AMX *amx, cell *params) {
-    SavePositionRequest request;
-    SavePositionResponse response;
-    ClientContext context;
-    
-	// construct request from params
-	// TODO: message
-
-    // RPC call.
-    Status status = API::Get().MruVDevToolsServiceStub()->SavePosition(&context, request, &response);
-    API::Get().setLastStatus(status);
-    
-	// convert response to amx structure
-	if(status.ok())
-	{
-		cell* addr = NULL;
-
-	}
-    return status.ok();
-}
-
-// native mvdts_DeletePosition(const i_Position[Position], &o_Success);
-cell Natives::mvdts_DeletePosition(AMX *amx, cell *params) {
-    DeletePositionRequest request;
-    DeletePositionResponse response;
-    ClientContext context;
-    
-	// construct request from params
-	// TODO: message
-
-    // RPC call.
-    Status status = API::Get().MruVDevToolsServiceStub()->DeletePosition(&context, request, &response);
-    API::Get().setLastStatus(status);
-    
-	// convert response to amx structure
-	if(status.ok())
-	{
-		cell* addr = NULL;
-
-	}
-    return status.ok();
-}
-
-// native mvdts_GetOutfits(const i_Name[], const i_Category[], const i_Author[], o_Outfits[][GetOutfitsResponse_Row]);
-cell Natives::mvdts_GetOutfits(AMX *amx, cell *params) {
-    GetOutfitsRequest request;
-    GetOutfitsResponse response;
-    ClientContext context;
-    
-	// construct request from params
-	request.set_name(amx_GetCppString(amx, params[1]));
-	request.set_category(amx_GetCppString(amx, params[2]));
-	request.set_author(amx_GetCppString(amx, params[3]));
-
-    // RPC call.
-    Status status = API::Get().MruVDevToolsServiceStub()->GetOutfits(&context, request, &response);
-    API::Get().setLastStatus(status);
-    
-	// convert response to amx structure
-	if(status.ok())
-	{
-		cell* addr = NULL;
-		// todo: list
-
-	}
-    return status.ok();
-}
-
-// native mvdts_SaveOutfit(const i_Outfit[Outfit], &o_Success);
-cell Natives::mvdts_SaveOutfit(AMX *amx, cell *params) {
-    SaveOutfitRequest request;
-    SaveOutfitResponse response;
-    ClientContext context;
-    
-	// construct request from params
-	// TODO: message
-
-    // RPC call.
-    Status status = API::Get().MruVDevToolsServiceStub()->SaveOutfit(&context, request, &response);
-    API::Get().setLastStatus(status);
-    
-	// convert response to amx structure
-	if(status.ok())
-	{
-		cell* addr = NULL;
-
-	}
-    return status.ok();
-}
-
-// native mvdts_GetAnimations(const i_Limit, const i_Dict[], const i_Name[], o_Animations[][GetAnimationsResponse_Row]);
-cell Natives::mvdts_GetAnimations(AMX *amx, cell *params) {
-    GetAnimationsRequest request;
-    GetAnimationsResponse response;
-    ClientContext context;
-    
-	// construct request from params
-	request.set_limit(params[1]);
-	request.set_dict(amx_GetCppString(amx, params[2]));
-	request.set_name(amx_GetCppString(amx, params[3]));
-
-    // RPC call.
-    Status status = API::Get().MruVDevToolsServiceStub()->GetAnimations(&context, request, &response);
-    API::Get().setLastStatus(status);
-    
-	// convert response to amx structure
-	if(status.ok())
-	{
-		cell* addr = NULL;
-		// todo: list
-
-	}
-    return status.ok();
-}
-
-// native mvdts_GetAnimation(const i_Dict[], const i_Name[], &o_Animation[Animation], &o_Author[Player]);
-cell Natives::mvdts_GetAnimation(AMX *amx, cell *params) {
-    GetAnimationRequest request;
-    GetAnimationResponse response;
-    ClientContext context;
-    
-	// construct request from params
-	request.set_dict(amx_GetCppString(amx, params[1]));
-	request.set_name(amx_GetCppString(amx, params[2]));
-
-    // RPC call.
-    Status status = API::Get().MruVDevToolsServiceStub()->GetAnimation(&context, request, &response);
-    API::Get().setLastStatus(status);
-    
-	// convert response to amx structure
-	if(status.ok())
-	{
-		cell* addr = NULL;
-		// TODO: message
-		// TODO: message
-
-	}
-    return status.ok();
-}
-
-// native mvdts_SaveAnimation(const i_Animation[Animation], &o_Success);
-cell Natives::mvdts_SaveAnimation(AMX *amx, cell *params) {
-    SaveAnimationRequest request;
-    SaveAnimationResponse response;
-    ClientContext context;
-    
-	// construct request from params
-	// TODO: message
-
-    // RPC call.
-    Status status = API::Get().MruVDevToolsServiceStub()->SaveAnimation(&context, request, &response);
-    API::Get().setLastStatus(status);
-    
-	// convert response to amx structure
-	if(status.ok())
-	{
-		cell* addr = NULL;
-
-	}
-    return status.ok();
-}
-
-// native mvdts_GetServiceStatus(o_Status[]);
-cell Natives::mvdts_GetServiceStatus(AMX *amx, cell *params) {
-    ServiceStatusRequest request;
-    ServiceStatusResponse response;
-    ClientContext context;
-    
-    // RPC call.
-    Status status = API::Get().MruVDevToolsServiceStub()->GetServiceStatus(&context, request, &response);
-    API::Get().setLastStatus(status);
-    
-	// convert response to amx structure
-	if(status.ok())
-	{
-		cell* addr = NULL;
-		amx_SetCppString(amx, params[1], response.status(), 256);
-
-	}
-    return status.ok();
-}
-
-// native mvdts_GetServiceVersion(o_Version[], o_BuildDate[], o_Commit[], o_OsArch[]);
-cell Natives::mvdts_GetServiceVersion(AMX *amx, cell *params) {
-    VersionRequest request;
-    VersionResponse response;
-    ClientContext context;
-    
-    // RPC call.
-    Status status = API::Get().MruVDevToolsServiceStub()->GetServiceVersion(&context, request, &response);
     API::Get().setLastStatus(status);
     
 	// convert response to amx structure
@@ -1175,7 +944,7 @@ cell Natives::mvis_PullItem(AMX *amx, cell *params) {
     return status.ok();
 }
 
-// native mvis_PutItem(const i_ContainerId, const i_ItemId, const i_Slot, &o_InsideItem[InsideItem]);
+// native mvis_PutItem(const i_ContainerId, const i_ItemId, const i_Slot, o_InsideItem[InsideItem]);
 cell Natives::mvis_PutItem(AMX *amx, cell *params) {
     PutItemRequest request;
     PutItemResponse response;
@@ -1200,7 +969,7 @@ cell Natives::mvis_PutItem(AMX *amx, cell *params) {
     return status.ok();
 }
 
-// native mvis_SortItems(const i_ContainerId, const SortingMode:i_SortBy, &o_Container[Container]);
+// native mvis_SortItems(const i_ContainerId, const SortingMode:i_SortBy, o_Container[Container]);
 cell Natives::mvis_SortItems(AMX *amx, cell *params) {
     SortItemsRequest request;
     SortItemsResponse response;
