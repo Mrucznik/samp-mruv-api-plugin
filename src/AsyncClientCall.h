@@ -7,23 +7,19 @@
 
 #include <grpcpp/support/status.h>
 
+#include <utility>
+#include "CCallback.hpp"
+
 using grpc::Status;
 
 template <class T>
-class AsyncClientCall {
+struct AsyncClientCall {
 public:
-    const char* callbackName;
+    std::shared_ptr<CCallback> callback;
     Status status;
     T response;
 
-    explicit AsyncClientCall(const char *callbackName) : callbackName(callbackName) {
-
-    }
-
-    void CallCallback() {
-
-    }
-
+    explicit AsyncClientCall(std::shared_ptr<CCallback> callback) : callback(std::move(callback)) {}
 private:
 };
 

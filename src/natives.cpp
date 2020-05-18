@@ -10,6 +10,7 @@ The code here acts as the translation between AMX data types and native types.
 #include <thread>
 #include "natives.hpp"
 #include "impl.hpp"
+#include "CLog.hpp"
 #include "AsyncClientCall.h"
 
 using namespace Impl;
@@ -1137,12 +1138,53 @@ cell Natives::mvis_AsyncGetServiceStatus(AMX *amx, cell *params)
     // construct request from params
     request.set_id(params[1]);
 
+    string
+            callback_str = amx_GetCppString(amx, params[3]),
+            format_str = amx_GetCppString(amx, params[4]);
+
+    //Create callback
+    CError<CCallback> callback_error;
+    std::shared_ptr<CCallback> callback = CCallback::Create(
+            amx,
+            callback_str.c_str(),
+            format_str.c_str(),
+            params, 4,
+            callback_error);
+
+    if (callback_error && callback_error.type() != CCallback::Error::EMPTY_NAME)
+    {
+        CLog::Get()->LogNative(callback_error);
+        return false;
+    }
+
     // RPC call.
-    AsyncClientCall<ServerStatus> call = AsyncClientCall<ServerStatus>("lol");
+    auto* queue = new CompletionQueue();
+    auto* call = new AsyncClientCall<ServerStatus>(callback);
     std::unique_ptr<ClientAsyncResponseReader<ServerStatus> > rpc(
-            API::Get().MruVServerServiceStub()->AsyncGetServerStatus(&context, request, &API::Get().completionQueue));
+            API::Get().MruVServerServiceStub()->AsyncGetServerStatus(&context, request, queue));
 
     rpc->StartCall();
-    rpc->Finish(&call.response, &call.status, (void*)&call);
-    return 1;
+    rpc->Finish(&call->response, &call->status, (void*)&call);
+
+    std::thread thread_object([queue]() {
+        void* got_tag;
+        bool ok = false;
+
+        // Block until the next result is available in the completion queue "cq".
+        while (queue->Next(&got_tag, &ok)) {
+            // The tag in this example is the memory location of the call object
+            auto call = static_cast<AsyncClientCall<ServerStatus>*>(got_tag);
+
+            // Verify that the request was completed successfully. Note that "ok"
+            // corresponds solely to the request for updates introduced by Finish().
+            if (call->status.ok())
+                std::cout << "Is server running?: " << call->response.active() << std::endl;
+            else
+                std::cout << "RPC failed" << std::endl;
+
+            // Once we're complete, deallocate the call object.
+            delete call;
+        }
+    });
+    return true;
 }

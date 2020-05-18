@@ -69,3 +69,5 @@ const Status &Impl::API::getLastStatus() const {
 void Impl::API::setLastStatus(const Status &lastStatus) {
     _lastStatus = lastStatus;
 }
+
+
