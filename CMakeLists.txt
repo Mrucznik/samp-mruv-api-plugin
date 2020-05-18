@@ -33,4 +33,18 @@ set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/test/plugins)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
+set(CMAKE_PREFIX_PATH "${PROJECT_SOURCE_DIR}/lib/samp-log-core")
+find_package(log-core ${LOG-CORE_VERSION} REQUIRED CONFIG)
+
+add_subdirectory(lib/fmt)
+mark_as_advanced(FMT_TEST FMT_INSTALL FMT_PEDANTIC FMT_DOC FMT_USE_CPP11 FMT_WERROR)
+
+find_package(Boost 1.62 QUIET)
+if(NOT Boost_FOUND)
+	set(BOOST_ROOT "${BOOST_ROOT}" CACHE PATH "Set the Boost root folder.")
+	mark_as_advanced(CLEAR BOOST_ROOT)
+	message(FATAL_ERROR "Could NOT find Boost; specify additional paths.")
+endif()
+mark_as_advanced(BOOST_ROOT Boost_DIR)
+
 add_subdirectory(src)

@@ -21,6 +21,7 @@ using namespace mruv::devtools;
 using grpc::Channel;
 using grpc::Status;
 using grpc::StatusCode;
+using grpc::CompletionQueue;
 
 namespace Impl {
 
@@ -39,6 +40,8 @@ namespace Impl {
         const std::unique_ptr<MruVGroupsService::Stub> &MruVGroupsServiceStub() const;
         const std::unique_ptr<MruVItemService::Stub> &MruVItemServiceStub() const;
         const std::unique_ptr<MruVServerService::Stub> &MruVServerServiceStub() const;
+
+        CompletionQueue completionQueue;
 
         const Status &getLastStatus() const;
         void setLastStatus(const Status &lastStatus);

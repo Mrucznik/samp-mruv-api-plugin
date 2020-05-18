@@ -1,23 +1,36 @@
 {
-  "user": "Mrucznik",
-  "repo": "samp-mruv-api-plugin",
-  "entry": "test.pwn",
-  "output": "test/gamemodes/test.amx",
-  "dependencies": ["Southclaws/samp-stdlib"],
-  "dev_dependencies": ["pawn-lang/YSI-Includes"],
-  "runtime": {
-    "plugins": ["Mrucznik/samp-mruv-api-plugin"]
-  },
-  "resources": [
-    {
-      "name": "mruvapi.so",
-      "archive": false,
-      "platform": "linux"
-    },
-    {
-      "name": "mruvapi.dll",
-      "archive": false,
-      "platform": "windows"
-    }
-  ]
+	"user": "Mrucznik",
+	"repo": "samp-mruv-api-plugin",
+	"entry": "test.pwn",
+	"output": "test/gamemodes/test.amx",
+	"dependencies": [
+		"Southclaws/samp-stdlib",
+		"maddinat0r/samp-log"
+	],
+	"dev_dependencies": [
+		"pawn-lang/YSI-Includes"
+	],
+	"runtime": {
+		"version": "0.3.7",
+		"mode": "server",
+		"echo": "Loading configuration...",
+		"plugins": [
+			"Mrucznik/samp-mruv-api-plugin"
+		],
+		"rcon_password": "password",
+		"port": 8192,
+		"hostname": "SA-MP Server",
+		"maxplayers": 50,
+		"language": ""
+	},
+	"resources": [
+		{
+			"name": "mruvapi.so",
+			"platform": "linux"
+		},
+		{
+			"name": "mruvapi.dll",
+			"platform": "windows"
+		}
+	]
 }

@@ -23,6 +23,16 @@ add_samp_plugin(mruvapi
         natives.cpp
         natives.hpp
         plugin.def
+
+        AsyncClientCall.h
+        AsyncClientCall.cpp
+        CCallback.hpp
+        CCallback.cpp
+        CLog.hpp
+        CLog.cpp
+        CError.hpp
+        CSingleton.hpp
+
         #mruv-pb-cpp
         ../lib/mruv-pb-cpp/accounts/accounts.grpc.pb.cc
         ../lib/mruv-pb-cpp/accounts/accounts.pb.cc
@@ -59,4 +69,7 @@ add_samp_plugin(mruvapi
         ../lib/mruv-pb-cpp/google/api/http.pb.cc
 )
 
-target_link_libraries(mruvapi grpc++)
+target_link_libraries(mruvapi grpc++ log-core fmt)
+
+get_target_property(LOGCORE_LOCATION log-core LOCATION)
+install(FILES "${LOGCORE_LOCATION}" DESTINATION "./")

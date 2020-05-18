@@ -165,6 +165,8 @@ namespace Natives {
     cell mvgs_GetServiceVersion(AMX *amx, cell *params);
 
     cell mvis_GetServiceStatus(AMX *amx, cell *params);
+
+    cell mvis_AsyncGetServiceStatus(AMX *amx, cell *params);
 }
 
 #endif

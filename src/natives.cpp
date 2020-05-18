@@ -7,12 +7,15 @@ no instances of `cell` or `AMX*` and is purely C++ and external library code.
 The code here acts as the translation between AMX data types and native types.
 */
 
+#include <thread>
 #include "natives.hpp"
 #include "impl.hpp"
+#include "AsyncClientCall.h"
 
 using namespace Impl;
 using grpc::ClientContext;
-
+using grpc::CompletionQueue;
+using grpc::ClientAsyncResponseReader;
 
 // native mvas_RegisterAccount(const i_Account[Account], const i_Password[], &o_Success, &o_AccountId);
 cell Natives::mvas_RegisterAccount(AMX *amx, cell *params) {
@@ -1124,4 +1127,22 @@ cell Natives::mvss_GetServerStatus(AMX *amx, cell *params) {
 
 	}
     return status.ok();
+}
+
+cell Natives::mvis_AsyncGetServiceStatus(AMX *amx, cell *params)
+{
+    ServerID request;
+    ClientContext context;
+
+    // construct request from params
+    request.set_id(params[1]);
+
+    // RPC call.
+    AsyncClientCall<ServerStatus> call = AsyncClientCall<ServerStatus>("lol");
+    std::unique_ptr<ClientAsyncResponseReader<ServerStatus> > rpc(
+            API::Get().MruVServerServiceStub()->AsyncGetServerStatus(&context, request, &API::Get().completionQueue));
+
+    rpc->StartCall();
+    rpc->Finish(&call.response, &call.status, (void*)&call);
+    return 1;
 }
