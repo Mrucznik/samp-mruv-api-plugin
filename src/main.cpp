@@ -10,24 +10,26 @@ The "main" source file with most of the boilerplate code. Includes the
 
 #include <amx/amx.h>
 #include <plugincommon.h>
+#include <samplog/Api.hpp>
 
 #include "impl.hpp"
 #include "common.hpp"
 #include "natives.hpp"
 
+#include "CCallback.hpp"
+#include "CLog.hpp"
+
 using Impl::API;
 
 logprintf_t logprintf;
 
-PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
-{
+PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
     return SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES;
 }
 
-PLUGIN_EXPORT bool PLUGIN_CALL Load(void** ppData)
-{
+PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
     pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
-    logprintf = (logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
+    logprintf = (logprintf_t) ppData[PLUGIN_DATA_LOGPRINTF];
 
     logprintf("==========================================");
     logprintf("|                                        |");
@@ -87,16 +89,20 @@ extern "C" const AMX_NATIVE_INFO native_list[] = {
         AMX_DEFINE_NATIVE(mvss_RegisterServer)
         AMX_DEFINE_NATIVE(mvss_GetServerStatus)
         AMX_DEFINE_NATIVE(mvis_AsyncGetServiceStatus)
-        { nullptr, nullptr }
+        {nullptr, nullptr}
 };
 
-PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX* amx)
-{
+PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
+    samplog::Api::Get()->RegisterAmx(amx);
+    CCallbackManager::Get()->AddAmx(amx);
     return amx_Register(amx, native_list, -1);
 }
 
-PLUGIN_EXPORT int PLUGIN_CALL Unload()
-{
+PLUGIN_EXPORT int PLUGIN_CALL Unload() {
+    CCallbackManager::CSingleton::Destroy();
+    CLog::CSingleton::Destroy();
+    samplog::Api::Destroy();
+
     logprintf("==========================================");
     logprintf("|                                        |");
     logprintf("|            MruV API plugin             |");
@@ -107,7 +113,8 @@ PLUGIN_EXPORT int PLUGIN_CALL Unload()
     return 1;
 }
 
-PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX* amx)
-{
+PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx) {
+    samplog::Api::Get()->EraseAmx(amx);
+    CCallbackManager::Get()->RemoveAmx(amx);
     return 1;
 }

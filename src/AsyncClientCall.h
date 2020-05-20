@@ -12,7 +12,7 @@
 
 using grpc::Status;
 
-template <class T>
+template<class T>
 struct AsyncClientCall {
 public:
     std::shared_ptr<CCallback> callback;
@@ -20,6 +20,7 @@ public:
     T response;
 
     explicit AsyncClientCall(std::shared_ptr<CCallback> callback) : callback(std::move(callback)) {}
+
 private:
 };
 

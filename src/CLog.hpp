@@ -26,129 +26,127 @@ using samplog::LogLevel;
 using samplog::AmxFuncCallInfo;
 
 
-class CDebugInfoManager : public CSingleton<CDebugInfoManager>
-{
-	friend class CSingleton<CDebugInfoManager>;
-	friend class CScopedDebugInfo;
-private:
-	CDebugInfoManager() = default;
-	~CDebugInfoManager() = default;
+class CDebugInfoManager : public CSingleton<CDebugInfoManager> {
+    friend class CSingleton<CDebugInfoManager>;
+
+    friend class CScopedDebugInfo;
 
 private:
-	bool m_Available = false;
+    CDebugInfoManager() = default;
 
-	AMX *m_Amx = nullptr;
-	std::vector<AmxFuncCallInfo> m_Info;
-	const char *m_NativeName = nullptr;
+    ~CDebugInfoManager() override = default;
 
 private:
-	void Update(AMX * const amx, const char *func);
-	void Clear();
+    bool m_Available = false;
+
+    AMX *m_Amx = nullptr;
+    std::vector<AmxFuncCallInfo> m_Info;
+    const char *m_NativeName = nullptr;
+
+private:
+    void Update(AMX *amx, const char *func);
+
+    void Clear();
 
 public:
-	inline AMX * const GetCurrentAmx()
-	{
-		return m_Amx;
-	}
-	inline const decltype(m_Info) &GetCurrentInfo()
-	{
-		return m_Info;
-	}
-	inline bool IsInfoAvailable()
-	{
-		return m_Available;
-	}
-	inline const char *GetCurrentNativeName()
-	{
-		return m_NativeName;
-	}
+    inline AMX *GetCurrentAmx() {
+        return m_Amx;
+    }
+
+    inline const decltype(m_Info) &GetCurrentInfo() {
+        return m_Info;
+    }
+
+    inline bool IsInfoAvailable() const {
+        return m_Available;
+    }
+
+    inline const char *GetCurrentNativeName() {
+        return m_NativeName;
+    }
 };
 
 
-class CLog : public CSingleton<CLog>
-{
-	friend class CSingleton<CLog>;
-	friend class CScopedDebugInfo;
+class CLog : public CSingleton<CLog> {
+    friend class CSingleton<CLog>;
+
+    friend class CScopedDebugInfo;
+
 private:
-	CLog() :
-		m_Logger("mysql")
-	{ }
-	~CLog() = default;
+    CLog() :
+            m_Logger("mruv-api-plugin") {}
+
+    ~CLog() override = default;
 
 public:
-	inline bool IsLogLevel(LogLevel level)
-	{
-		return m_Logger.IsLogLevel(level);
-	}
+    inline bool IsLogLevel(LogLevel level) {
+        return m_Logger.IsLogLevel(level);
+    }
 
-	template<typename... Args>
-	inline void Log(LogLevel level, const char *format, Args &&...args)
-	{
-		if (!IsLogLevel(level))
-			return;
+    template<typename... Args>
+    inline void Log(LogLevel level, const char *format, Args &&...args) {
+        if (!IsLogLevel(level))
+            return;
 
-		string str = format;
-		if (sizeof...(args) != 0)
-			str = fmt::format(format, std::forward<Args>(args)...);
+        string str = format;
+        if (sizeof...(args) != 0)
+            str = fmt::format(format, std::forward<Args>(args)...);
 
-		m_Logger.Log(level, str.c_str());
-	}
+        m_Logger.Log(level, str.c_str());
+    }
 
-	template<typename... Args>
-	inline void Log(LogLevel level, std::vector<AmxFuncCallInfo> const &callinfo,
-					const char *format, Args &&...args)
-	{
-		if (!IsLogLevel(level))
-			return;
+    template<typename... Args>
+    inline void Log(LogLevel level, std::vector<AmxFuncCallInfo> const &callinfo,
+                    const char *format, Args &&...args) {
+        if (!IsLogLevel(level))
+            return;
 
-		string str = format;
-		if (sizeof...(args) != 0)
-			str = fmt::format(format, std::forward<Args>(args)...);
+        string str = format;
+        if (sizeof...(args) != 0)
+            str = fmt::format(format, std::forward<Args>(args)...);
 
-		m_Logger.Log(level, str.c_str(), callinfo);
-	}
+        m_Logger.Log(level, str.c_str(), callinfo);
+    }
 
-	// should only be called in native functions
-	template<typename... Args>
-	void LogNative(LogLevel level, const char *fmt, Args &&...args)
-	{
-		if (!IsLogLevel(level))
-			return;
+    // should only be called in native functions
+    template<typename... Args>
+    void LogNative(LogLevel level, const char *fmt, Args &&...args) {
+        if (!IsLogLevel(level))
+            return;
 
-		if (CDebugInfoManager::Get()->GetCurrentAmx() == nullptr)
-			return; //do nothing, since we're not called from within a native func
+        if (CDebugInfoManager::Get()->GetCurrentAmx() == nullptr)
+            return; //do nothing, since we're not called from within a native func
 
-		string msg = fmt::format("{}: {}",
-			CDebugInfoManager::Get()->GetCurrentNativeName(),
-			fmt::format(fmt, std::forward<Args>(args)...));
+        string msg = fmt::format("{}: {}",
+                                 CDebugInfoManager::Get()->GetCurrentNativeName(),
+                                 fmt::format(fmt, std::forward<Args>(args)...));
 
-		if (CDebugInfoManager::Get()->IsInfoAvailable())
-			Log(level, CDebugInfoManager::Get()->GetCurrentInfo(), msg.c_str());
-		else
-			Log(level, msg.c_str());
-	}
+        if (CDebugInfoManager::Get()->IsInfoAvailable())
+            Log(level, CDebugInfoManager::Get()->GetCurrentInfo(), msg.c_str());
+        else
+            Log(level, msg.c_str());
+    }
 
-	template<typename T>
-	inline void LogNative(const CError<T> &error)
-	{
-		LogNative(LogLevel::ERROR, "{} error: {}",
-				  error.module(), error.msg());
-	}
+    template<typename T>
+    inline void LogNative(const CError<T> &error) {
+        LogNative(LogLevel::ERROR, "{} error: {}",
+                  error.module(), error.msg());
+    }
 
 private:
-	PluginLogger_t m_Logger;
+    PluginLogger_t m_Logger;
 
 };
 
 
-class CScopedDebugInfo
-{
+class CScopedDebugInfo {
 public:
-	CScopedDebugInfo(AMX * const amx, const char *func,
-		cell * const params, const char *params_format = "");
-	~CScopedDebugInfo()
-	{
-		CDebugInfoManager::Get()->Clear();
-	}
-	CScopedDebugInfo(const CScopedDebugInfo &rhs) = delete;
+    CScopedDebugInfo(AMX *amx, const char *func,
+                     cell *params, const char *params_format = "");
+
+    ~CScopedDebugInfo() {
+        CDebugInfoManager::Get()->Clear();
+    }
+
+    CScopedDebugInfo(const CScopedDebugInfo &rhs) = delete;
 };

@@ -44,9 +44,9 @@ const std::unique_ptr<MruVServerService::Stub> &Impl::API::MruVServerServiceStub
 
 bool Impl::API::Connect(int timeout) {
     _channel->WaitForConnected(gpr_time_add(
-            gpr_now(GPR_CLOCK_REALTIME),gpr_time_from_seconds(timeout, GPR_TIMESPAN))
+            gpr_now(GPR_CLOCK_REALTIME), gpr_time_from_seconds(timeout, GPR_TIMESPAN))
     );
-    if(_channel->GetState(false) != grpc_connectivity_state::GRPC_CHANNEL_READY) {
+    if (_channel->GetState(false) != grpc_connectivity_state::GRPC_CHANNEL_READY) {
         logprintf("Couldn't connect to mruv-api");
         return false;
     }

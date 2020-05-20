@@ -12,7 +12,7 @@ Contains all the `PAWN_NATIVE_DECL` for native function declarations.
 #include "common.hpp"
 
 #define AMX_DEFINE_NATIVE(native) \
-	{#native, Natives::native},
+    {#native, Natives::native},
 
 namespace Natives {
 

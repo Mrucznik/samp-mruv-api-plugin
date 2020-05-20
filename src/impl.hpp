@@ -35,15 +35,21 @@ namespace Impl {
         bool Connect(int);
 
         const std::unique_ptr<MruVAccountsService::Stub> &MruVAccountsServiceStub() const;
+
         const std::unique_ptr<MruVCharactersService::Stub> &MruVCharactersServiceStub() const;
+
         const std::unique_ptr<MruVDevToolsService::Stub> &MruVDevToolsServiceStub() const;
+
         const std::unique_ptr<MruVGroupsService::Stub> &MruVGroupsServiceStub() const;
+
         const std::unique_ptr<MruVItemService::Stub> &MruVItemServiceStub() const;
+
         const std::unique_ptr<MruVServerService::Stub> &MruVServerServiceStub() const;
 
         CompletionQueue completionQueue;
 
         const Status &getLastStatus() const;
+
         void setLastStatus(const Status &lastStatus);
 
     private:

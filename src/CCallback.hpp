@@ -17,7 +17,7 @@
 
 #include "CSingleton.hpp"
 
-typedef void(*logprintf_t)(const char* format, ...);
+typedef void(*logprintf_t)(const char *format, ...);
 
 #include <string>
 #include <queue>
@@ -38,77 +38,74 @@ using std::tuple;
 
 #include "CError.hpp"
 
-class CCallback
-{
+class CCallback {
 public: //type definitions
-	using ParamList_t = list<tuple<char, boost::any>>;
+    using ParamList_t = list<tuple<char, boost::any>>;
 
-	enum class Error
-	{
-		NONE,
-		INVALID_AMX,
-		INVALID_PARAMETERS,
-		INVALID_PARAM_COUNT,
-		INVALID_FORMAT_SPECIFIER,
-		EMPTY_NAME,
-		NOT_FOUND,
-		EXPECTED_ARRAY_SIZE,
-		INVALID_ARRAY_SIZE,
-		NO_ARRAY_SIZE,
-	};
-	static const string ModuleName;
+    enum class Error {
+        NONE,
+        INVALID_AMX,
+        INVALID_PARAMETERS,
+        INVALID_PARAM_COUNT,
+        INVALID_FORMAT_SPECIFIER,
+        EMPTY_NAME,
+        NOT_FOUND,
+        EXPECTED_ARRAY_SIZE,
+        INVALID_ARRAY_SIZE,
+        NO_ARRAY_SIZE,
+    };
+    static const string ModuleName;
 
 public: //constructor / destructor
-	CCallback(AMX *amx, int cb_idx, ParamList_t &&params) :
-		m_AmxInstance(amx),
-		m_AmxCallbackIndex(cb_idx),
-		m_Params(params)
-	{ }
-	~CCallback() = default;
+    CCallback(AMX *amx, int cb_idx, ParamList_t &&params) :
+            m_AmxInstance(amx),
+            m_AmxCallbackIndex(cb_idx),
+            m_Params(params) {}
+
+    ~CCallback() = default;
 
 private: //variables
-	AMX *m_AmxInstance = nullptr;
-	int m_AmxCallbackIndex = -1;
+    AMX *m_AmxInstance = nullptr;
+    int m_AmxCallbackIndex = -1;
 
-	ParamList_t m_Params;
+    ParamList_t m_Params;
 
 public: //functions
-	bool Execute();
+    bool Execute();
 
 public: //factory functions
-	static std::shared_ptr<CCallback> Create(AMX *amx, const char *name, const char *format,
-							 cell *params, cell param_offset,
-							 CError<CCallback> &error);
+    static std::shared_ptr<CCallback> Create(AMX *amx, const char *name, const char *format,
+                                             cell *params, cell param_offset,
+                                             CError<CCallback> &error);
 
-	static std::shared_ptr<CCallback> Create(CError<CCallback> &error,
-							 AMX *amx, const char *name, const char *format, ...);
+    static std::shared_ptr<CCallback> Create(CError<CCallback> &error,
+                                             AMX *amx, const char *name, const char *format, ...);
 };
 
-class CCallbackManager : public CSingleton<CCallbackManager>
-{
-	friend class CSingleton<CCallbackManager>;
+class CCallbackManager : public CSingleton<CCallbackManager> {
+    friend class CSingleton<CCallbackManager>;
+
 private: //constructor / destructor
-	CCallbackManager() = default;
-	~CCallbackManager() = default;
+    CCallbackManager() = default;
+
+    ~CCallbackManager() override = default;
 
 
 private: //variables
-	unordered_set<const AMX *> m_AmxInstances;
+    unordered_set<const AMX *> m_AmxInstances;
 
 
 public: //functions
-	inline bool IsValidAmx(const AMX *amx)
-	{
-		return m_AmxInstances.count(amx) == 1;
-	}
+    inline bool IsValidAmx(const AMX *amx) {
+        return m_AmxInstances.count(amx) == 1;
+    }
 
-	inline void AddAmx(const AMX *amx)
-	{
-		m_AmxInstances.insert(amx);
-	}
-	inline void RemoveAmx(const AMX *amx)
-	{
-		m_AmxInstances.erase(amx);
-	}
+    inline void AddAmx(const AMX *amx) {
+        m_AmxInstances.insert(amx);
+    }
+
+    inline void RemoveAmx(const AMX *amx) {
+        m_AmxInstances.erase(amx);
+    }
 
 };
