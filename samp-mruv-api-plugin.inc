@@ -678,6 +678,7 @@ native bool:mvis_UseItem(const i_ItemId, &o_Success);
 
 //Get service health status.
 native bool:mvis_GetServiceStatus(o_Status[]);
+native bool:mvis_AsyncGetServiceStatus(callback[], format[], {Float,_}:...);
 
 //Get service current version.
 native bool:mvis_GetServiceVersion(o_Version[], o_BuildDate[], o_Commit[], o_OsArch[]);

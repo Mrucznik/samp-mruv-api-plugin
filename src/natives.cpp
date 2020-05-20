@@ -1132,59 +1132,65 @@ cell Natives::mvss_GetServerStatus(AMX *amx, cell *params) {
 
 cell Natives::mvis_AsyncGetServiceStatus(AMX *amx, cell *params)
 {
-    ServerID request;
+    ServiceStatusRequest request;
     ClientContext context;
 
-    // construct request from params
-    request.set_id(params[1]);
-
     string
-            callback_str = amx_GetCppString(amx, params[3]),
-            format_str = amx_GetCppString(amx, params[4]);
+            callback_str = amx_GetCppString(amx, params[1]),
+            format_str = amx_GetCppString(amx, params[2]);
 
     //Create callback
+    logprintf("create callback %s(%s)", callback_str.c_str(), format_str.c_str());
     CError<CCallback> callback_error;
     std::shared_ptr<CCallback> callback = CCallback::Create(
             amx,
             callback_str.c_str(),
             format_str.c_str(),
-            params, 4,
+            params, 3,
             callback_error);
 
     if (callback_error && callback_error.type() != CCallback::Error::EMPTY_NAME)
     {
+        logprintf("create err %s", callback_error.msg().c_str());
         CLog::Get()->LogNative(callback_error);
         return false;
     }
 
     // RPC call.
+    logprintf("make rpc call");
     auto* queue = new CompletionQueue();
-    auto* call = new AsyncClientCall<ServerStatus>(callback);
-    std::unique_ptr<ClientAsyncResponseReader<ServerStatus> > rpc(
-            API::Get().MruVServerServiceStub()->AsyncGetServerStatus(&context, request, queue));
+    auto* call = new AsyncClientCall<ServiceStatusResponse>(callback);
+    std::unique_ptr<ClientAsyncResponseReader<ServiceStatusResponse> > rpc(
+            API::Get().MruVItemServiceStub()->AsyncGetServiceStatus(&context, request, queue));
 
-    rpc->StartCall();
-    rpc->Finish(&call->response, &call->status, (void*)&call);
+    logprintf("finish call");
+    rpc->Finish(&call->response, &call->status, (void*)call);
 
     std::thread thread_object([queue]() {
+        logprintf("start thread");
         void* got_tag;
         bool ok = false;
 
         // Block until the next result is available in the completion queue "cq".
         while (queue->Next(&got_tag, &ok)) {
             // The tag in this example is the memory location of the call object
-            auto call = static_cast<AsyncClientCall<ServerStatus>*>(got_tag);
+            auto call = static_cast<AsyncClientCall<ServiceStatusResponse>*>(got_tag);
 
             // Verify that the request was completed successfully. Note that "ok"
             // corresponds solely to the request for updates introduced by Finish().
             if (call->status.ok())
-                std::cout << "Is server running?: " << call->response.active() << std::endl;
+                logprintf("Server status: %s", call->response.status().c_str());
             else
-                std::cout << "RPC failed" << std::endl;
+                logprintf("rpc failed");
 
             // Once we're complete, deallocate the call object.
             delete call;
+            break;
         }
     });
+    logprintf("end of native call");
+
+    thread_object.join();
+    logprintf("end of thread");
     return true;
 }

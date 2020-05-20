@@ -86,7 +86,8 @@ extern "C" const AMX_NATIVE_INFO native_list[] = {
         AMX_DEFINE_NATIVE(mvis_GetServiceVersion)
         AMX_DEFINE_NATIVE(mvss_RegisterServer)
         AMX_DEFINE_NATIVE(mvss_GetServerStatus)
-        { NULL, NULL }
+        AMX_DEFINE_NATIVE(mvis_AsyncGetServiceStatus)
+        { nullptr, nullptr }
 };
 
 PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX* amx)
