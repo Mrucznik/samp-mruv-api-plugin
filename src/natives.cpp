@@ -1094,24 +1094,28 @@ cell Natives::mvis_AsyncGetServiceStatus(AMX *amx, cell *params) {
             format_str = amx_GetCppString(amx, params[2]);
 
     //Create callback
-    logprintf("create callback %s(%s)", callback_str.c_str(), format_str.c_str());
-    CError<CCallback> callback_error;
-    std::shared_ptr<CCallback> callback = CCallback::Create(
-            amx,
-            callback_str.c_str(),
-            format_str.c_str(),
-            params, 3,
-            callback_error);
+//    logprintf("create callback %s(%s)", callback_str.c_str(), format_str.c_str());
+//    CError<CCallback> callback_error;
+//    std::shared_ptr<CCallback> callback = CCallback::Create(
+//            amx,
+//            callback_str.c_str(),
+//            format_str.c_str(),
+//            params, 3,
+//            callback_error);
+//
+//    if (callback_error && callback_error.type() != CCallback::Error::EMPTY_NAME) {
+//        logprintf("create err %s", callback_error.msg().c_str());
+//        CLog::Get()->LogNative(callback_error);
+//        return false;
+//    }
 
-    if (callback_error && callback_error.type() != CCallback::Error::EMPTY_NAME) {
-        logprintf("create err %s", callback_error.msg().c_str());
-        CLog::Get()->LogNative(callback_error);
-        return false;
-    }
+    auto func = [amx](AsyncClientCall<ServiceStatusResponse>& call, CError<CCallback> &errors) -> std::shared_ptr<CCallback> {
+        return CCallback::Create(errors, amx, call.callbackName, call.callbackFormat, call.response.status().c_str());
+    };
+    auto *call = new AsyncClientCall<ServiceStatusResponse>(func, callback_str.c_str(), format_str.c_str());
 
     // RPC call.
     logprintf("make rpc call");
-    auto *call = new AsyncClientCall<ServiceStatusResponse>(callback);
     std::unique_ptr<ClientAsyncResponseReader<ServiceStatusResponse> > rpc(
             API::Get()->MruVItemServiceStub()->AsyncGetServiceStatus(&context, request, &API::Get()->completionQueue));
 

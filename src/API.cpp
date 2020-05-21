@@ -18,19 +18,8 @@ API::API() {
         // Block until the next result is available in the completion queue "cq".
         while (this->completionQueue.Next(&got_tag, &ok)) {
             // The tag in this example is the memory location of the call object
-            auto call = static_cast<AsyncClientCall<ServiceStatusResponse> *>(got_tag);
-
-            // Verify that the request was completed successfully. Note that "ok"
-            // corresponds solely to the request for updates introduced by Finish().
-            if (call->status.ok())
-            {
-                logprintf("Server status: %s", call->response.status().c_str());
-                call->callback->Execute();
-            }
-            else
-            {
-                logprintf("rpc failed");
-            }
+            auto call = static_cast<AsyncClientCallCallback*>(got_tag);
+            call->Execute();
 
             // Once we're complete, deallocate the call object.
             delete call;
