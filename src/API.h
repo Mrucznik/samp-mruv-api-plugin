@@ -43,6 +43,8 @@ public:
 
     CompletionQueue completionQueue;
 
+    void CompletionQueueThreadFunc();
+
     const Status &getLastStatus() const;
 
     void setLastStatus(const Status &lastStatus);

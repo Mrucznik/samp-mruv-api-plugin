@@ -9,23 +9,24 @@
 
 API::API() {
     _channel = grpc::CreateChannel("localhost:3001", grpc::InsecureChannelCredentials());
+    _completionQueueThread = new std::thread(&API::CompletionQueueThreadFunc, this);
+}
 
-    _completionQueueThread = new std::thread([this]() {
-        logprintf("start thread");
-        void *got_tag;
-        bool ok = false;
+void API::CompletionQueueThreadFunc() {
+    logprintf("start completion queue thread");
+    void *got_tag;
+    bool ok = false;
 
-        // Block until the next result is available in the completion queue "cq".
-        while (this->completionQueue.Next(&got_tag, &ok)) {
-            // The tag in this example is the memory location of the call object
-            auto call = static_cast<AsyncClientCallCallback*>(got_tag);
-            call->Execute();
+    // Block until the next result is available in the completion queue "cq".
+    while (this->completionQueue.Next(&got_tag, &ok)) {
+        // The tag in this example is the memory location of the call object
+        auto call = static_cast<AsyncClientCallCallback*>(got_tag);
+        call->Execute();
 
-            // Once we're complete, deallocate the call object.
-            delete call;
-        }
-        logprintf("end of thread");
-    });
+        // Once we're complete, deallocate the call object.
+        delete call;
+    }
+    logprintf("end of completion queue thread");
 }
 
 API::~API() {
