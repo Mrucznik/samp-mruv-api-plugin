@@ -7,9 +7,12 @@ no instances of `cell` or `AMX*` and is purely C++ and external library code.
 The code here acts as the translation between AMX data types and native types.
 */
 
+#include <thread>
 #include "natives.hpp"
-#include "impl.hpp"
+#include "API.h"
+#include "CLog.hpp"
+#include "AsyncClientCall.h"
 
-using namespace Impl;
 using grpc::ClientContext;
-
+using grpc::CompletionQueue;
+using grpc::ClientAsyncResponseReader;
