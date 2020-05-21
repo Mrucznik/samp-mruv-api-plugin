@@ -20,13 +20,13 @@ Test:mruv_itemsService_status_test() {
 }
 
 Test:mvis_AsyncGetServiceStatus_Test() {
-    new ret = mvis_AsyncGetServiceStatus("OnGetServiceStatus", "s", "null");
+    new ret = mvis_AsyncGetServiceStatus("OnGetServiceStatus", "s", "Loltraktor");
     printf("ret: [%d]", ret);
     ASSERT(ret == 1);
 }
 
 public OnGetServiceStatus(status[])
 {
-    printf("Service status: %s", status);
+    printf("CALLBACK: Service status: %s", status);
     return 1;
 }

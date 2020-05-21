@@ -9,11 +9,10 @@ The code here acts as the translation between AMX data types and native types.
 
 #include <thread>
 #include "natives.hpp"
-#include "impl.hpp"
+#include "API.h"
 #include "CLog.hpp"
 #include "AsyncClientCall.h"
 
-using namespace Impl;
 using grpc::ClientContext;
 using grpc::CompletionQueue;
 using grpc::ClientAsyncResponseReader;
@@ -29,8 +28,8 @@ cell Natives::mvas_RegisterAccount(AMX *amx, cell *params) {
     request.set_password(amx_GetCppString(amx, params[2]));
 
     // RPC call.
-    Status status = API::Get().MruVAccountsServiceStub()->RegisterAccount(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVAccountsServiceStub()->RegisterAccount(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -53,8 +52,8 @@ cell Natives::mvas_LogIn(AMX *amx, cell *params) {
     request.set_password(amx_GetCppString(amx, params[2]));
 
     // RPC call.
-    Status status = API::Get().MruVAccountsServiceStub()->LogIn(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVAccountsServiceStub()->LogIn(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -76,8 +75,8 @@ cell Natives::mvas_GetAccount(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVAccountsServiceStub()->GetAccount(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVAccountsServiceStub()->GetAccount(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -102,8 +101,8 @@ cell Natives::mvas_GetAccountCharacters(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVAccountsServiceStub()->GetAccountCharacters(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVAccountsServiceStub()->GetAccountCharacters(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -130,8 +129,8 @@ cell Natives::mvcs_CreateCharacter(AMX *amx, cell *params) {
     // TODO: message
 
     // RPC call.
-    Status status = API::Get().MruVCharactersServiceStub()->CreateCharacter(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVCharactersServiceStub()->CreateCharacter(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -153,8 +152,8 @@ cell Natives::mvcs_GetCharacter(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVCharactersServiceStub()->GetCharacter(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVCharactersServiceStub()->GetCharacter(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -185,8 +184,8 @@ cell Natives::mvcs_RemoveCharacter(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVCharactersServiceStub()->RemoveCharacter(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVCharactersServiceStub()->RemoveCharacter(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -208,8 +207,8 @@ cell Natives::mvcs_PermanentCharacterKill(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVCharactersServiceStub()->PermanentCharacterKill(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVCharactersServiceStub()->PermanentCharacterKill(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -228,8 +227,8 @@ cell Natives::mvcs_GetServiceStatus(AMX *amx, cell *params) {
     ClientContext context;
 
     // RPC call.
-    Status status = API::Get().MruVCharactersServiceStub()->GetServiceStatus(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVCharactersServiceStub()->GetServiceStatus(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -247,8 +246,8 @@ cell Natives::mvcs_GetServiceVersion(AMX *amx, cell *params) {
     ClientContext context;
 
     // RPC call.
-    Status status = API::Get().MruVCharactersServiceStub()->GetServiceVersion(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVCharactersServiceStub()->GetServiceVersion(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -276,8 +275,8 @@ cell Natives::mvgs_CreateGroup(AMX *amx, cell *params) {
     // todo: list
 
     // RPC call.
-    Status status = API::Get().MruVGroupsServiceStub()->CreateGroup(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVGroupsServiceStub()->CreateGroup(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -299,8 +298,8 @@ cell Natives::mvgs_GetGroup(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVGroupsServiceStub()->GetGroup(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVGroupsServiceStub()->GetGroup(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -326,8 +325,8 @@ cell Natives::mvgs_DeleteGroup(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVGroupsServiceStub()->DeleteGroup(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVGroupsServiceStub()->DeleteGroup(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -349,8 +348,8 @@ cell Natives::mvgs_GetGroups(AMX *amx, cell *params) {
     request.set_limit(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVGroupsServiceStub()->GetGroups(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVGroupsServiceStub()->GetGroups(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -368,8 +367,8 @@ cell Natives::mvgs_AddGroupMember(AMX *amx, cell *params) {
     ClientContext context;
 
     // RPC call.
-    Status status = API::Get().MruVGroupsServiceStub()->AddGroupMember(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVGroupsServiceStub()->AddGroupMember(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -386,8 +385,8 @@ cell Natives::mvgs_RemoveGroupMember(AMX *amx, cell *params) {
     ClientContext context;
 
     // RPC call.
-    Status status = API::Get().MruVGroupsServiceStub()->RemoveGroupMember(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVGroupsServiceStub()->RemoveGroupMember(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -404,8 +403,8 @@ cell Natives::mvgs_GetServiceStatus(AMX *amx, cell *params) {
     ClientContext context;
 
     // RPC call.
-    Status status = API::Get().MruVGroupsServiceStub()->GetServiceStatus(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVGroupsServiceStub()->GetServiceStatus(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -423,8 +422,8 @@ cell Natives::mvgs_GetServiceVersion(AMX *amx, cell *params) {
     ClientContext context;
 
     // RPC call.
-    Status status = API::Get().MruVGroupsServiceStub()->GetServiceVersion(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVGroupsServiceStub()->GetServiceVersion(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -451,8 +450,8 @@ cell Natives::mvis_CreateItem(AMX *amx, cell *params) {
     request.set_volume(amx_ctof(params[4]));
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->CreateItem(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->CreateItem(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -474,8 +473,8 @@ cell Natives::mvis_GetItem(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetItem(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetItem(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -505,8 +504,8 @@ cell Natives::mvis_DeleteItem(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->DeleteItem(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->DeleteItem(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -528,8 +527,8 @@ cell Natives::mvis_GetItems(AMX *amx, cell *params) {
     request.set_limit(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetItems(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetItems(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -556,8 +555,8 @@ cell Natives::mvis_CreateItemType(AMX *amx, cell *params) {
     request.set_model_hash(params[7]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->CreateItemType(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->CreateItemType(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -579,8 +578,8 @@ cell Natives::mvis_GetItemType(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetItemType(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetItemType(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -613,8 +612,8 @@ cell Natives::mvis_DeleteItemType(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->DeleteItemType(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->DeleteItemType(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -636,8 +635,8 @@ cell Natives::mvis_GetItemTypes(AMX *amx, cell *params) {
     request.set_limit(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetItemTypes(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetItemTypes(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -662,8 +661,8 @@ cell Natives::mvis_CreateContainer(AMX *amx, cell *params) {
     // todo: list
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->CreateContainer(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->CreateContainer(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -685,8 +684,8 @@ cell Natives::mvis_GetContainer(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetContainer(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetContainer(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -715,8 +714,8 @@ cell Natives::mvis_DeleteContainer(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->DeleteContainer(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->DeleteContainer(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -738,8 +737,8 @@ cell Natives::mvis_GetContainers(AMX *amx, cell *params) {
     request.set_limit(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetContainers(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetContainers(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -765,8 +764,8 @@ cell Natives::mvis_CreateContainerType(AMX *amx, cell *params) {
     // todo: list
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->CreateContainerType(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->CreateContainerType(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -788,8 +787,8 @@ cell Natives::mvis_GetContainerType(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetContainerType(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetContainerType(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -822,8 +821,8 @@ cell Natives::mvis_DeleteContainerType(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->DeleteContainerType(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->DeleteContainerType(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -845,8 +844,8 @@ cell Natives::mvis_GetContainerTypes(AMX *amx, cell *params) {
     request.set_limit(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetContainerTypes(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetContainerTypes(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -868,8 +867,8 @@ cell Natives::mvis_GetContainerItems(AMX *amx, cell *params) {
     request.set_limit(params[2]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetContainerItems(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetContainerItems(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -891,8 +890,8 @@ cell Natives::mvis_PullItem(AMX *amx, cell *params) {
     request.set_item_id(params[2]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->PullItem(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->PullItem(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -924,8 +923,8 @@ cell Natives::mvis_PutItem(AMX *amx, cell *params) {
     request.set_slot(params[3]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->PutItem(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->PutItem(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -947,8 +946,8 @@ cell Natives::mvis_SortItems(AMX *amx, cell *params) {
     request.set_sort_by(static_cast<SortingMode>(params[2]));
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->SortItems(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->SortItems(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -971,8 +970,8 @@ cell Natives::mvis_GetNearestItems(AMX *amx, cell *params) {
     request.set_distance_limit(amx_ctof(params[3]));
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetNearestItems(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetNearestItems(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -993,8 +992,8 @@ cell Natives::mvis_UseItem(AMX *amx, cell *params) {
     request.set_item_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->UseItem(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->UseItem(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -1011,8 +1010,8 @@ cell Natives::mvis_GetServiceStatus(AMX *amx, cell *params) {
     ClientContext context;
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetServiceStatus(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetServiceStatus(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -1030,8 +1029,8 @@ cell Natives::mvis_GetServiceVersion(AMX *amx, cell *params) {
     ClientContext context;
 
     // RPC call.
-    Status status = API::Get().MruVItemServiceStub()->GetServiceVersion(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVItemServiceStub()->GetServiceVersion(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -1052,8 +1051,8 @@ cell Natives::mvss_RegisterServer(AMX *amx, cell *params) {
     ClientContext context;
 
     // RPC call.
-    Status status = API::Get().MruVServerServiceStub()->RegisterServer(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVServerServiceStub()->RegisterServer(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -1073,8 +1072,8 @@ cell Natives::mvss_GetServerStatus(AMX *amx, cell *params) {
     request.set_id(params[1]);
 
     // RPC call.
-    Status status = API::Get().MruVServerServiceStub()->GetServerStatus(&context, request, &response);
-    API::Get().setLastStatus(status);
+    Status status = API::Get()->MruVServerServiceStub()->GetServerStatus(&context, request, &response);
+    API::Get()->setLastStatus(status);
 
     // convert response to amx structure
     if (status.ok()) {
@@ -1112,39 +1111,15 @@ cell Natives::mvis_AsyncGetServiceStatus(AMX *amx, cell *params) {
 
     // RPC call.
     logprintf("make rpc call");
-    auto *queue = new CompletionQueue();
     auto *call = new AsyncClientCall<ServiceStatusResponse>(callback);
     std::unique_ptr<ClientAsyncResponseReader<ServiceStatusResponse> > rpc(
-            API::Get().MruVItemServiceStub()->AsyncGetServiceStatus(&context, request, queue));
+            API::Get()->MruVItemServiceStub()->AsyncGetServiceStatus(&context, request, &API::Get()->completionQueue));
 
     logprintf("finish call");
     rpc->Finish(&call->response, &call->status, (void *) call);
 
-    std::thread thread_object([queue]() {
-        logprintf("start thread");
-        void *got_tag;
-        bool ok = false;
+    sleep(1);
 
-        // Block until the next result is available in the completion queue "cq".
-        while (queue->Next(&got_tag, &ok)) {
-            // The tag in this example is the memory location of the call object
-            auto call = static_cast<AsyncClientCall<ServiceStatusResponse> *>(got_tag);
-
-            // Verify that the request was completed successfully. Note that "ok"
-            // corresponds solely to the request for updates introduced by Finish().
-            if (call->status.ok())
-                logprintf("Server status: %s", call->response.status().c_str());
-            else
-                logprintf("rpc failed");
-
-            // Once we're complete, deallocate the call object.
-            delete call;
-            break;
-        }
-    });
-    logprintf("end of native call");
-
-    thread_object.join();
-    logprintf("end of thread");
+    logprintf("end of native");
     return true;
 }

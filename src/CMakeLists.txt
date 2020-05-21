@@ -24,6 +24,8 @@ add_samp_plugin(mruvapi
         natives.hpp
         plugin.def
 
+        API.h
+        API.cpp
         AsyncClientCall.h
         AsyncClientCall.cpp
         CCallback.hpp

@@ -16,10 +16,9 @@ The "main" source file with most of the boilerplate code. Includes the
 #include "common.hpp"
 #include "natives.hpp"
 
+#include "API.h"
 #include "CCallback.hpp"
 #include "CLog.hpp"
-
-using Impl::API;
 
 logprintf_t logprintf;
 
@@ -37,9 +36,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
     logprintf("|                 v0.0.1                 |");
     logprintf("|                                        |");
     logprintf("| * Connecting to MruV-API...            |");
-    API::Get().Connect(5);
+    API::Get()->Connect(5);
     logprintf("| * MruV-API plugin was loaded.          |");
     logprintf("==========================================");
+
+    CLog::Get()->Log(LogLevel::INFO, "Plugin was loaded.");
     return true;
 }
 
@@ -99,15 +100,18 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL Unload() {
-    CCallbackManager::CSingleton::Destroy();
-    CLog::CSingleton::Destroy();
-    samplog::Api::Destroy();
-
     logprintf("==========================================");
     logprintf("|                                        |");
     logprintf("|            MruV API plugin             |");
     logprintf("|                 v0.0.1                 |");
     logprintf("|                                        |");
+    logprintf("| * Unloading plugin...                  |");
+
+    API::Destroy();
+    CCallbackManager::CSingleton::Destroy();
+    CLog::CSingleton::Destroy();
+    samplog::Api::Destroy();
+
     logprintf("| * MruV-API plugin was unloaded.        |");
     logprintf("==========================================");
     return 1;

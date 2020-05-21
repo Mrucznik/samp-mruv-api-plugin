@@ -24,7 +24,7 @@ protected:
 public:
     CSingleton() {}
 
-    virtual ~CSingleton() {}
+    virtual ~CSingleton() = default;
 
     inline static T *Get() {
         if (m_Instance == nullptr)
