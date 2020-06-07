@@ -1085,12 +1085,21 @@ cell Natives::mvis_GetServiceVersion(AMX *amx, cell *params) {
     return status.ok();
 }
 
-// native mvss_RegisterServer();
+// native mvss_RegisterServer(const i_Id, const i_Name[], const i_Host[], const i_Port[], const i_Platform[], const ServerStatus:i_Status, const i_Players, &o_Id);
 cell Natives::mvss_RegisterServer(AMX *amx, cell *params) {
-    RegisterServerRequest request;
-    RegisterServerResponse response;
+    ServerInfo request;
+    ServerID response;
     ClientContext context;
     
+	// construct request from params
+	request.set_id(params[1]);
+	request.set_name(amx_GetCppString(amx, params[2]));
+	request.set_host(amx_GetCppString(amx, params[3]));
+	request.set_port(amx_GetCppString(amx, params[4]));
+	request.set_platform(amx_GetCppString(amx, params[5]));
+	request.set_status(static_cast<ServerStatus>(params[6]));
+	request.set_players(params[7]);
+
     // RPC call.
     Status status = API::Get()->MruVServerServiceStub()->RegisterServer(&context, request, &response);
     API::Get()->setLastStatus(status);
@@ -1099,60 +1108,85 @@ cell Natives::mvss_RegisterServer(AMX *amx, cell *params) {
 	if(status.ok())
 	{
 		cell* addr = nullptr;
+		amx_GetAddr(amx, params[8], &addr);
+		*addr = response.id();
 
 	}
     return status.ok();
 }
 
-// native mvss_GetServerStatus(const i_Id, &o_Active, &o_Players);
-cell Natives::mvss_GetServerStatus(AMX *amx, cell *params) {
-    ServerID request;
-    ServerStatus response;
+// native mvss_GetRegisteredServers(o_Servers[][ServerInfo]);
+cell Natives::mvss_GetRegisteredServers(AMX *amx, cell *params) {
+    GetRegisteredServersRequest request;
+    GetRegisteredServersResponse response;
     ClientContext context;
     
-	// construct request from params
-	request.set_id(params[1]);
-
     // RPC call.
-    Status status = API::Get()->MruVServerServiceStub()->GetServerStatus(&context, request, &response);
+    Status status = API::Get()->MruVServerServiceStub()->GetRegisteredServers(&context, request, &response);
     API::Get()->setLastStatus(status);
     
 	// convert response to amx structure
 	if(status.ok())
 	{
 		cell* addr = nullptr;
-		amx_GetAddr(amx, params[3], &addr);
+		// todo: list
+
+	}
+    return status.ok();
+}
+
+// native mvss_GetServerInfo(const i_Id, &o_Id, o_Name[], o_Host[], o_Port[], o_Platform[], &ServerStatus:o_Status, &o_Players);
+cell Natives::mvss_GetServerInfo(AMX *amx, cell *params) {
+    ServerID request;
+    ServerInfo response;
+    ClientContext context;
+    
+	// construct request from params
+	request.set_id(params[1]);
+
+    // RPC call.
+    Status status = API::Get()->MruVServerServiceStub()->GetServerInfo(&context, request, &response);
+    API::Get()->setLastStatus(status);
+    
+	// convert response to amx structure
+	if(status.ok())
+	{
+		cell* addr = nullptr;
+		amx_GetAddr(amx, params[2], &addr);
+		*addr = response.id();
+		amx_SetCppString(amx, params[3], response.name(), 256);
+		amx_SetCppString(amx, params[4], response.host(), 256);
+		amx_SetCppString(amx, params[5], response.port(), 256);
+		amx_SetCppString(amx, params[6], response.platform(), 256);
+		amx_GetAddr(amx, params[7], &addr);
+		*addr = response.status();
+		amx_GetAddr(amx, params[8], &addr);
 		*addr = response.players();
 
 	}
     return status.ok();
 }
 
-cell Natives::mvis_AsyncGetServiceStatus(AMX *amx, cell *params) {
-    ServiceStatusRequest request;
+// native mvss_UpdateServerStatus(const i_Id, const ServerStatus:i_Status, const i_Players);
+cell Natives::mvss_UpdateServerStatus(AMX *amx, cell *params) {
+    UpdateServerStatusRequest request;
+    UpdateServerStatusResponse response;
     ClientContext context;
-
-    string
-            callback_str = amx_GetCppString(amx, params[1]),
-            format_str = amx_GetCppString(amx, params[2]);
-
-    //Create callback
-    auto func = [amx](AsyncClientCall<ServiceStatusResponse> &call,
-                      CError<CCallback> &errors) -> std::shared_ptr<CCallback> {
-        return CCallback::Create(errors, amx, call.callbackName, call.callbackFormat, call.response.status().c_str());
-    };
-    auto *call = new AsyncClientCall<ServiceStatusResponse>(func, callback_str.c_str(), format_str.c_str());
+    
+	// construct request from params
+	request.set_id(params[1]);
+	request.set_status(static_cast<ServerStatus>(params[2]));
+	request.set_players(params[3]);
 
     // RPC call.
-    logprintf("make rpc call");
-    std::unique_ptr<ClientAsyncResponseReader<ServiceStatusResponse> > rpc(
-            API::Get()->MruVItemServiceStub()->AsyncGetServiceStatus(&context, request, &API::Get()->completionQueue));
+    Status status = API::Get()->MruVServerServiceStub()->UpdateServerStatus(&context, request, &response);
+    API::Get()->setLastStatus(status);
+    
+	// convert response to amx structure
+	if(status.ok())
+	{
+		cell* addr = nullptr;
 
-    logprintf("finish call");
-    rpc->Finish(&call->response, &call->status, (void *) call);
-
-    sleep(1);
-
-    logprintf("end of native");
-    return true;
+	}
+    return status.ok();
 }

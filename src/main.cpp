@@ -88,8 +88,9 @@ extern "C" const AMX_NATIVE_INFO native_list[] = {
         AMX_DEFINE_NATIVE(mvis_GetServiceStatus)
         AMX_DEFINE_NATIVE(mvis_GetServiceVersion)
         AMX_DEFINE_NATIVE(mvss_RegisterServer)
-        AMX_DEFINE_NATIVE(mvss_GetServerStatus)
-        AMX_DEFINE_NATIVE(mvis_AsyncGetServiceStatus)
+        AMX_DEFINE_NATIVE(mvss_GetRegisteredServers)
+        AMX_DEFINE_NATIVE(mvss_GetServerInfo)
+        AMX_DEFINE_NATIVE(mvss_UpdateServerStatus)
         {nullptr, nullptr}
 };
 

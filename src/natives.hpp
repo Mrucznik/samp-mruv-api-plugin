@@ -15,6 +15,41 @@ Contains all the `PAWN_NATIVE_DECL` for native function declarations.
     {#native, Natives::native},
 
 namespace Natives {
+    cell mvas_RegisterAccount(AMX *amx, cell *params);
+
+    cell mvas_LogIn(AMX *amx, cell *params);
+
+    cell mvas_GetAccount(AMX *amx, cell *params);
+
+    cell mvas_GetAccountCharacters(AMX *amx, cell *params);
+
+    cell mvcs_CreateCharacter(AMX *amx, cell *params);
+
+    cell mvcs_GetCharacter(AMX *amx, cell *params);
+
+    cell mvcs_RemoveCharacter(AMX *amx, cell *params);
+
+    cell mvcs_PermanentCharacterKill(AMX *amx, cell *params);
+
+    cell mvcs_GetServiceStatus(AMX *amx, cell *params);
+
+    cell mvcs_GetServiceVersion(AMX *amx, cell *params);
+
+    cell mvgs_CreateGroup(AMX *amx, cell *params);
+
+    cell mvgs_GetGroup(AMX *amx, cell *params);
+
+    cell mvgs_DeleteGroup(AMX *amx, cell *params);
+
+    cell mvgs_GetGroups(AMX *amx, cell *params);
+
+    cell mvgs_AddGroupMember(AMX *amx, cell *params);
+
+    cell mvgs_RemoveGroupMember(AMX *amx, cell *params);
+
+    cell mvgs_GetServiceStatus(AMX *amx, cell *params);
+
+    cell mvgs_GetServiceVersion(AMX *amx, cell *params);
 
     cell mvis_CreateItem(AMX *amx, cell *params);
 
@@ -60,113 +95,20 @@ namespace Natives {
 
     cell mvis_UseItem(AMX *amx, cell *params);
 
-    cell mvas_RegisterAccount(AMX *amx, cell *params);
-
-    cell mvas_LogIn(AMX *amx, cell *params);
-
-    cell mvas_GetAccount(AMX *amx, cell *params);
-
-    cell mvas_GetAccountCharacters(AMX *amx, cell *params);
-
-    cell mvcs_CreateCharacter(AMX *amx, cell *params);
-
-    cell mvcs_GetCharacter(AMX *amx, cell *params);
-
-    cell mvcs_RemoveCharacter(AMX *amx, cell *params);
-
-    cell mvcs_PermanentCharacterKill(AMX *amx, cell *params);
-
-    cell mvcs_GetServiceStatus(AMX *amx, cell *params);
-
-    cell mvcs_GetServiceVersion(AMX *amx, cell *params);
-
-    cell mvdts_GetPositions(AMX *amx, cell *params);
-
-    cell mvdts_SavePosition(AMX *amx, cell *params);
-
-    cell mvdts_DeletePosition(AMX *amx, cell *params);
-
-    cell mvdts_GetOutfits(AMX *amx, cell *params);
-
-    cell mvdts_SaveOutfit(AMX *amx, cell *params);
-
-    cell mvdts_GetAnimations(AMX *amx, cell *params);
-
-    cell mvdts_GetAnimation(AMX *amx, cell *params);
-
-    cell mvdts_SaveAnimation(AMX *amx, cell *params);
-
-    cell mvdts_GetServiceStatus(AMX *amx, cell *params);
-
-    cell mvdts_GetServiceVersion(AMX *amx, cell *params);
-
-    cell mvgs_CreateGroup(AMX *amx, cell *params);
-
-    cell mvgs_GetGroup(AMX *amx, cell *params);
-
-    cell mvgs_DeleteGroup(AMX *amx, cell *params);
-
-    cell mvgs_GetGroups(AMX *amx, cell *params);
-
-    cell mvgs_AddGroupMember(AMX *amx, cell *params);
-
-    cell mvgs_RemoveGroupMember(AMX *amx, cell *params);
-
-    cell mvgs_GetServiceStatus(AMX *amx, cell *params);
-
-    cell mvgs_GetServiceVersion(AMX *amx, cell *params);
-
     cell mvis_GetServiceStatus(AMX *amx, cell *params);
 
     cell mvis_GetServiceVersion(AMX *amx, cell *params);
 
     cell mvss_RegisterServer(AMX *amx, cell *params);
 
-    cell mvss_GetServerStatus(AMX *amx, cell *params);
+    cell mvss_GetRegisteredServers(AMX *amx, cell *params);
 
-    cell mvcs_GetServiceStatus(AMX *amx, cell *params);
+    cell mvss_GetServerInfo(AMX *amx, cell *params);
 
-    cell mvcs_GetServiceVersion(AMX *amx, cell *params);
-
-    cell mvdts_GetPositions(AMX *amx, cell *params);
-
-    cell mvdts_SavePosition(AMX *amx, cell *params);
-
-    cell mvdts_DeletePosition(AMX *amx, cell *params);
-
-    cell mvdts_GetOutfits(AMX *amx, cell *params);
-
-    cell mvdts_SaveOutfit(AMX *amx, cell *params);
-
-    cell mvdts_GetAnimations(AMX *amx, cell *params);
-
-    cell mvdts_GetAnimation(AMX *amx, cell *params);
-
-    cell mvdts_SaveAnimation(AMX *amx, cell *params);
-
-    cell mvdts_GetServiceStatus(AMX *amx, cell *params);
-
-    cell mvdts_GetServiceVersion(AMX *amx, cell *params);
-
-    cell mvgs_CreateGroup(AMX *amx, cell *params);
-
-    cell mvgs_GetGroup(AMX *amx, cell *params);
-
-    cell mvgs_DeleteGroup(AMX *amx, cell *params);
-
-    cell mvgs_GetGroups(AMX *amx, cell *params);
-
-    cell mvgs_AddGroupMember(AMX *amx, cell *params);
-
-    cell mvgs_RemoveGroupMember(AMX *amx, cell *params);
-
-    cell mvgs_GetServiceStatus(AMX *amx, cell *params);
-
-    cell mvgs_GetServiceVersion(AMX *amx, cell *params);
-
-    cell mvis_GetServiceStatus(AMX *amx, cell *params);
+    cell mvss_UpdateServerStatus(AMX *amx, cell *params);
 
     cell mvis_AsyncGetServiceStatus(AMX *amx, cell *params);
+
 }
 
 #endif

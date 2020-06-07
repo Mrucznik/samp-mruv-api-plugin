@@ -18,6 +18,7 @@
 
 using namespace mruv;
 using namespace mruv::devtools;
+using namespace mruv::server;
 using grpc::Channel;
 using grpc::Status;
 using grpc::StatusCode;

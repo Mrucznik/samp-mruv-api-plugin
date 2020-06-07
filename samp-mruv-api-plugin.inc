@@ -430,41 +430,77 @@ enum InsideItem
 };
 
 // ---------- Messages ----------
-// Request message for `MruVServerService`
-enum RegisterServerRequest
+// Request message for `MruVServerService.GetRegisteredServers`.
+enum GetRegisteredServersRequest
 {
 };
 
-// Response message for `MruVServerService`
-enum RegisterServerResponse
+// Response message for `MruVServerService.GetRegisteredServers`.
+enum GetRegisteredServersResponse
+{
+		eServers_msg[256]
+};
+
+// Request message for `MruVServerService.UpdateServerStatus`.
+enum UpdateServerStatusRequest
+{
+	// Id of the server.
+	eId,
+	// Status of the server.
+	ServerStatus:eStatus,
+	// How many players are registered on that server.
+	ePlayers
+};
+
+// Response message for `MruVServerService.UpdateServerStatus`.
+enum UpdateServerStatusResponse
 {
 };
 
+// Request message for `MruVServerService.ServerEventsStream`.
+enum ServerEventsStreamRequest
+{
+	// The ID of the server from which we want to receive events.
+	eId
+};
+
+// Server event.
+// Response message for `MruVServerService.ServerEventsStream`.
+enum ServerEvent
+{
+	// Type of a server event.
+	ServerEvent_ServerEventType:eType
+};
+
+// ---------- Enums ----------
+enum ServerStatus
+{
+		UNKNOWN = 0, 
+		ON = 1, 
+		OFF = 2
+};
 // ---------- Messages ----------
 enum ServerID
 {
 		eId
 };
 
-// Data that describe server
+// Data that describe server.
 enum ServerInfo
 {
-	// Short name of the server
+	// Id of the server.
+	eId,
+	// Short name of the server.
 	eName[256],
-	// Host (ip) of the server
+	// Host (ip) of the server.
 	eHost[256],
-	// Port of the server
+	// Port of the server.
 	ePort[256],
-	// Platform, on which server is running
-	ePlatform[256]
-};
-
-// State of the server
-enum ServerStatus
-{
-	// Is server active and working
-	eActive,
-	// How many players are registered on that server
+	// Platform of the server.
+	ePlatform[256],
+	// Status of the server.
+	ServerStatus:eStatus,
+	// How many players are playing on the server.
 	ePlayers
 };
 
@@ -589,17 +625,25 @@ native bool:mvis_UseItem(const i_ItemId, &o_Success);
 
 //Get service health status.
 native bool:mvis_GetServiceStatus(o_Status[]);
-native bool:mvis_AsyncGetServiceStatus(callback[], format[]="", {Float,_}:...);
 
 //Get service current version.
 native bool:mvis_GetServiceVersion(o_Version[], o_BuildDate[], o_Commit[], o_OsArch[]);
 
 // ----- MruVServerService Natives -----
-// The MruV server service provides procedures for managing game platform server actions
+// The MruV server service provides procedures for managing game platform server actions.
 
-// Register instance of server for further managing
-native bool:mvss_RegisterServer();
+// Register instance of server for further managing.
+native bool:mvss_RegisterServer(const i_Id, const i_Name[], const i_Host[], const i_Port[], const i_Platform[], const ServerStatus:i_Status, const i_Players, &o_Id);
 
-// Get game server status
-native bool:mvss_GetServerStatus(const i_Id, &o_Active, &o_Players);
+// Get all registered servers.
+native bool:mvss_GetRegisteredServers(o_Servers[][ServerInfo]);
+
+// Get game server status.
+native bool:mvss_GetServerInfo(const i_Id, &o_Id, o_Name[], o_Host[], o_Port[], o_Platform[], &ServerStatus:o_Status, &o_Players);
+
+// Update game server status.
+native bool:mvss_UpdateServerStatus(const i_Id, const ServerStatus:i_Status, const i_Players);
+
+// Stream of server events. Events are streamed back in real-time for chosen server.
+native bool:mvss_ServerEventsStream(const i_Id, &ServerEvent_ServerEventType:o_Type);
 
